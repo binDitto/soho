@@ -1,0 +1,25 @@
+{
+  "name": "soho",
+  "version": "1.0.0",
+  "description": "Official Soho Nails in Kerman App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
+    "mongoose-unique-validator": "*",
+    "mongoose-updated_at": "0.0.2",
+    "multer": "^1.3.0",
+    "passport": "*",
+    "passport-jwt": "*"
+  },
+  "author": "Bin Tran",
+  "license": "ISC"
+}
