@@ -10,14 +10,28 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 })
 export class UserProfileComponent implements OnInit {
 
-  userProfile: User;
+    @Input() userProfile: User;
 
-  constructor( private userservice: UserService) { }
+  constructor( private userservice: UserService) {
+    this.userProfile = <User>{};
+  }
 
   ngOnInit() {
     this.userservice.getProfile().subscribe(
       ( loggedInUser ) => {
-        this.userProfile = loggedInUser;
+        const backToFront = new User(
+          loggedInUser.user.email,
+          loggedInUser.user.password,
+          loggedInUser.user.firstName,
+          loggedInUser.user.lastName,
+          loggedInUser.user.userName,
+          loggedInUser.user._id,
+          loggedInUser.user.services,
+          loggedInUser.user.images,
+          loggedInUser.user.admin,
+          loggedInUser.user.createdAt
+        );
+        this.userProfile = backToFront;
         console.log( this.userProfile.userName + ' is now logged in!' );
       },
       (dataError) => {

@@ -47,7 +47,7 @@ export class UserRegisterComponent implements OnInit {
                       );
 
       this.registerForm.reset();
-      this.router.navigate(['/users', '/login']);
+      this.router.navigate(['users', 'login']);
     }
 
   // CLOSING MODAL WHEN IT'S OPENED
