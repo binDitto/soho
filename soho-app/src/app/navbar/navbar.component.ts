@@ -1,6 +1,6 @@
 import { UserService } from '../auth/user.service';
 //  REQUIRED
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -20,7 +20,7 @@ export class NavBarComponent implements OnInit {
   ngOnInit (){
     if( localStorage.getItem('userId') !== null ) {
       this.userservice.getProfile().subscribe(
-        profileData => {
+        ( profileData)  => {
           this.userFirstName = profileData.firstName;
         }
       );

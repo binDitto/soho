@@ -80,7 +80,7 @@
 
             let decodedToken = jwt.decode(req.query.token);
 
-            User.findById( decodedToken.user._id, addUserToService );
+            User.findById( decodedToken.user._id.toString(), addUserToService );
 
             function addUserToService ( err, loggedInUser ) {
                 if (err) {
