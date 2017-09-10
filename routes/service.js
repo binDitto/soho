@@ -62,7 +62,8 @@
 
         const storage = multer.diskStorage({
             destination: ( req, file, cb ) => { 
-                cb( null, 'public/assets/images/services' ) 
+                // cb( null, 'public/assets/images/services' ) 
+                cb( null, 'soho-app/src/assets/images/services' ) 
             },
             filename: (req, file, cb) => { 
                 cb( null, file.fieldname + '-' + Date.now() + '.jpg' ) 
@@ -145,7 +146,7 @@
                     });
                 }
 
-                if ( serviceToEdit.user !== decodedToken.user._id ) {
+                if ( serviceToEdit.user.toString() !== decodedToken.user._id.toString() ) {
                     return res.status(401).json({
                         title: 'Not Service author cannot edit',
                         error: { message: 'You are not user of this service' }
@@ -202,8 +203,9 @@
         router.delete( '/:id', deleteService );
 
         function deleteService ( req, res, next ) {
-            let decodedToken = jwt.decode( req.query.token );
+            
             let serviceId = req.params.id;
+            let decodedToken = jwt.decode(req.query.token);
 
             Service.findById( serviceId, (err, serviceToDelete ) => {
                 if ( err ) {
@@ -219,8 +221,9 @@
                         error: { message: 'Service not found' }
                     });
                 }
-
-                if ( serviceToDelete.user !== decodedToken.user._id ) {
+                console.log(serviceToDelete);
+                console.log(decodedToken.user._id);
+                if ( serviceToDelete.user.toString() !== decodedToken.user._id.toString() ) {
                     return res.status(401).json({
                         title: 'Not authenticated, cannot delete service',
                         error: { message: 'Users do not match' }

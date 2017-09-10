@@ -14,7 +14,9 @@ export class NavBarComponent implements OnInit {
 
   @Input() userFirstName: String;
 
-  constructor ( private userservice: UserService, private router: Router){}
+  constructor ( private userservice: UserService, private router: Router){
+    this.userFirstName = '';
+  }
   ngOnInit (){
     if( localStorage.getItem('userId') !== null ) {
       this.userservice.getProfile().subscribe(

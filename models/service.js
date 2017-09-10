@@ -1,3 +1,6 @@
+// IMPORT USER
+    const User = require('./user');
+
 // DEPENDENCIES
     const mongoose = require('mongoose');
     const uniqueValidator = require('mongoose-unique-validator');
@@ -22,17 +25,19 @@
     ServiceSchema.plugin(updatedTimeStamp);
 
 // REMOVE SERVICE FROM USER SERVICE ARRAY UPON DELETION
-    ServiceSchema.post('remove', pullServiceFromUser);
-    
-    function pullServiceFromUser (service) {
+    ServiceSchema.post('remove', (service) => {
 
-        User.findById(service.user, serviceRemoval);
-
-        function serviceObject (err, returnedUser){
+        User.findById(service.user, (err, returnedUser) => {
             returnedUser.services.pull(service);
             returnedUser.save();
-        }
-    }
+            console.log(service.name + ' has been removed from ' + returnedUser.userName);
+        });
+
+        
+
+    });
+    
+   
 
 // EXPORT SCHEMA
     module.exports = mongoose.model('Service', ServiceSchema);

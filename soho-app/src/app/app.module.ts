@@ -1,3 +1,5 @@
+import { ServiceService } from './services/service.service';
+import { ServiceOutletComponent } from './services/outlet/service-outlet.component';
 import { UserService } from './auth/user.service';
 import { NavBarComponent } from './navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +18,7 @@ import { AppComponent } from './app.component';
     AppComponent,
     HomeComponent,
     UserNavComponent,
+    ServiceOutletComponent,
     NavBarComponent
   ],
   imports: [
@@ -24,7 +27,7 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule
   ],
-  providers: [ UserService ],
+  providers: [ UserService, ServiceService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

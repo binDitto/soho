@@ -10,7 +10,7 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 })
 export class UserProfileComponent implements OnInit {
 
-    @Input() userProfile: User;
+  @Input() userProfile: User;
 
   constructor( private userservice: UserService) {
     this.userProfile = <User>{};
@@ -19,19 +19,7 @@ export class UserProfileComponent implements OnInit {
   ngOnInit() {
     this.userservice.getProfile().subscribe(
       ( loggedInUser ) => {
-        const backToFront = new User(
-          loggedInUser.user.email,
-          loggedInUser.user.password,
-          loggedInUser.user.firstName,
-          loggedInUser.user.lastName,
-          loggedInUser.user.userName,
-          loggedInUser.user._id,
-          loggedInUser.user.services,
-          loggedInUser.user.images,
-          loggedInUser.user.admin,
-          loggedInUser.user.createdAt
-        );
-        this.userProfile = backToFront;
+        this.userProfile = loggedInUser;
         console.log( this.userProfile.userName + ' is now logged in!' );
       },
       (dataError) => {
