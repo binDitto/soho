@@ -62,8 +62,8 @@
 
         const storage = multer.diskStorage({
             destination: ( req, file, cb ) => { 
-                // cb( null, 'public/assets/images/services' ) 
-                cb( null, 'soho-app/src/assets/images/services' ) 
+                cb( null, 'public/assets/images/services' ) 
+                // cb( null, 'soho-app/src/assets/images/services' ) 
             },
             filename: (req, file, cb) => { 
                 cb( null, file.fieldname + '-' + Date.now() + '.jpg' ) 
@@ -161,25 +161,7 @@
                 serviceToEdit.category = req.body.category;
                 serviceToEdit.image = req.file;
 
-                if ( serviceToEdit.image.path !== pathBeforeEdited ) {
-                    fs.stat(pathBeforeEdited, deleteImage);
-                }
-
-                function deleteImage ( err, stats ) {
-                    console.log(stats);
-
-                    if ( err ) {
-                        return console.error(err);
-                    }
-
-                    fs.unlink( pathBeforeEdited, ( err ) => {
-                        if ( err ) {
-                            return console.log( err );
-                        }
-
-                        console.log( 'Old image removed from disk before adding new image!');
-                    });
-                }
+                
 
                 serviceToEdit.save((err, editedServiceObj) => {
                     if ( err ) {
@@ -188,7 +170,25 @@
                             error: err
                         });
                     }
+                    if (editedServiceObj.image.path !== pathBeforeEdited) {
+                        fs.stat(pathBeforeEdited, deleteImage);
+                    }
 
+                    function deleteImage(err, stats) {
+                        console.log(stats);
+
+                        if (err) {
+                            return console.error(err);
+                        }
+
+                        fs.unlink(pathBeforeEdited, (err) => {
+                            if (err) {
+                                return console.log(err);
+                            }
+
+                            console.log('Old image removed from disk before adding new image!');
+                        });
+                    }
                     res.status(200).json({
                         message: 'Service and image updated!',
                         obj: editedServiceObj
