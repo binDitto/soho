@@ -62,6 +62,7 @@ export class ServiceFormComponent implements OnInit {
                                   ( serviceEditedRes ) => {
                                     console.log( serviceEditedRes.message );
                                     this.service = serviceEditedRes;
+                                    this.router.navigate(['/services']);
                                   }
                                 );
 
@@ -81,12 +82,13 @@ export class ServiceFormComponent implements OnInit {
 
               this.serviceService.addService( serviceData )
                                  .subscribe(
-                                   createdServiceRes => console.log( createdServiceRes)
+                                   (createdServiceRes) => {console.log( createdServiceRes);
+                                   this.router.navigateByUrl('/services');}
                                  );
 
       }
 
-      this.router.navigateByUrl('/services');
+
       jQuery('#myModal').modal('hide');
 
       form.resetForm();
