@@ -13,6 +13,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
     HttpModule,
     FlashMessagesModule
   ],
-  providers: [ UserService, ServiceService ],
+  providers: [ UserService, ServiceService, { provide: LocationStrategy, useClass: HashLocationStrategy } ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
