@@ -20,8 +20,9 @@ export class UserService {
     register( userToRegister: User ) {
       let headers = new Headers();
           headers.append('Content-Type', 'application/json');
+      const jsonBody = JSON.stringify(userToRegister);
 
-      return this.http.post( this.backEnd + 'users', userToRegister, { headers: headers })
+      return this.http.post( this.backEnd + 'users', jsonBody, { headers: headers })
                       .map( createdUserRes  => createdUserRes.json() )
                       .catch( error => Observable.throw( error.json() ) );
     }

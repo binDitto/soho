@@ -30,7 +30,7 @@
             if ( err ) { 
                 return res.status( 500 ).json({ success: false, msg: 'Failed to register user.'});
             } else {
-                res.status(201).json({ success: true, msg: 'User registered' });
+                res.status(201).json({ success: true, msg: 'User registered', user: createdUser, error: err });
             }
         });
     });

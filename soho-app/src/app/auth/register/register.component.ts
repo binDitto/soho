@@ -4,6 +4,7 @@ import { User } from '../user.model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 @Component({
   selector: 'register-page',
@@ -24,7 +25,8 @@ export class UserRegisterComponent implements OnInit {
 
   constructor (
     private userservice: UserService,
-    private router: Router
+    private router: Router,
+    private flash: FlashMessagesModule
   ) {}
 
   ngOnInit () {
@@ -33,17 +35,24 @@ export class UserRegisterComponent implements OnInit {
 
   // FUNCTIONALITY
     onSubmit(){
-      const userToMake: User = new User(
-        this.registerForm.value.email,
-        this.registerForm.value.password,
-        this.registerForm.value.firstName,
-        this.registerForm.value.lastName,
-        this.registerForm.value.userName
-      );
+      const userToMake = {
+        email: this.registerForm.value.email,
+        password: this.registerForm.value.password,
+        firstName: this.registerForm.value.firstName,
+        lastName: this.registerForm.value.lastName,
+        userName: this.registerForm.value.userName
+      };
+
       this.userservice.register( userToMake )
                       .subscribe(
-                        createdUserRes => console.log( createdUserRes ),
-                        error => console.error( error )
+                        createdUserRes => {
+                          if (createdUserRes.success) {
+                            console.log('Success: ' + createdUserRes.success + ', ' + createdUserRes.msg );
+                            console.log( createdUserRes.user);
+                          } else {
+                            console.log('Success: ' + createdUserRes.success + ', ' + createdUserRes.error);
+                          }
+                        }
                       );
 
       this.registerForm.reset();
