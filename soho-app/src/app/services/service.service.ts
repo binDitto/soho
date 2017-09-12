@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Input, Output } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 
 import { Observable } from 'rxjs';
@@ -14,7 +14,9 @@ import { environment } from '../../environments/environment';
 export class ServiceService {
   backEnd = environment.backEndUrl;
 
-  private services: Service[] = [];
+  services: Service[] = [];
+  queryToVerify = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+
 
   constructor (
     private http: Http
@@ -23,10 +25,10 @@ export class ServiceService {
     getServices(){
       return this.http.get(this.backEnd + 'services')
                       .map(
-                        ( servicesDataRes: Response ) => {
-                          console.log( servicesDataRes.json().message );
+                        ( foundServices ) => {
+                          console.log( 'Success: ' + foundServices.json().success + ', ' + foundServices.json().msg );
 
-                          let servicesToTransform = servicesDataRes.json().obj;
+                          let servicesToTransform = foundServices.json().services;
                           let transformedServices: Service[] = [];
 
                           for (let service of servicesToTransform ) {
@@ -42,27 +44,21 @@ export class ServiceService {
                               service.createdAt
                             ));
                           }
+
                           this.services = transformedServices;
-
                           console.log(this.services.length + ' Services fetched!');
-
-
                           return transformedServices;
                         }
                       )
-                      .catch(
-                        ( error: Response ) => {
-                          return Observable.throw(error.json());
-                        }
-                      );
+                      .catch( error => Observable.throw(error.json()) );
     }
 
   // CREATE
     addService( serviceToAdd: FormData ) {
-      const queryToVerify = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-      const multipartHeaders = new Headers({ 'enctype' : 'multipart/form-data' });
+      let headers = new Headers();
+          headers.append('enctype', 'multipart/form-data');
 
-      return this.http.post(this.backEnd + 'services' + queryToVerify, serviceToAdd, { headers: multipartHeaders})
+      return this.http.post(this.backEnd + 'services' + this.queryToVerify, serviceToAdd, { headers: headers})
                       .map(
                         ( createdServiceRes: Response ) => {
                           const newServiceData = createdServiceRes.json();
@@ -83,12 +79,7 @@ export class ServiceService {
                           return newService;
                         }
                       )
-                      .catch(
-                        ( error: Response ) => {
-
-                          return Observable.throw(error.json());
-                        }
-                      );
+                      .catch( error => Observable.throw(error.json()) );
     }
 
   // EDIT
@@ -100,20 +91,12 @@ export class ServiceService {
 
   // UPDATE
     updateService ( serviceToUpdate: FormData, serviceId: String ) {
-      const queryToVerify = localStorage.getItem('token') ? "?token=" + localStorage.getItem('token') : '';
-      const multipartHeader = new Headers ({ 'enctype' : 'multipart/form-data' });
+      let headers = new Headers();
+          headers.append('enctype', 'multipart/form-data');
 
-      return this.http.patch( this.backEnd + 'services/' + serviceId + queryToVerify, serviceToUpdate, { headers: multipartHeader })
-                      .map(
-                        ( updatedServiceRes: Response ) => {
-                          const updatedService = updatedServiceRes.json();
-                          return updatedService;
-                        }
-
-                      )
-                      .catch(
-                        ( error: Response ) => Observable.throw(error.json())
-                      );
+      return this.http.patch( this.backEnd + 'services/' + serviceId + this.queryToVerify, serviceToUpdate, { headers: headers })
+                      .map( updatedServiceRes => updatedServiceRes.json() )
+                      .catch( error => Observable.throw(error.json()) );
     }
 
   // DELETE

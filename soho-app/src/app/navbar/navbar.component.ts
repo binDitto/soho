@@ -20,9 +20,7 @@ export class NavBarComponent implements OnInit {
   ngOnInit (){
     if( localStorage.getItem('userId') !== null ) {
       this.userservice.getProfile().subscribe(
-        ( profileData)  => {
-          this.userFirstName = profileData.firstName;
-        }
+        profile => this.userFirstName = profile.firstName
       );
     }
   }

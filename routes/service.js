@@ -3,59 +3,38 @@
     const bcrypt = require('bcryptjs');
     const jwt = require('jsonwebtoken');
     const fs = require('fs');
-
-// IMPORT MODELS TO USE
+    const config = require('.././config/database');
     const User = require('../models/user');
     const Service = require('../models/service');
 
-// IMPORT CONFIG
-    const config = require('.././config/database');
 
 // INITIALIZE ROUTER
     const router = express.Router();
 
     // GET ALL
-        router.get( '/', retrieveReqServ );
-
-        function retrieveReqServ ( req, res, next ) {
-            Service.find().sort({ createdAt: -1 })
-                   .populate('user')
-                   .exec(
-                       (err, fetchedServicesRes) => {
-                           if (err) {
-                               return res.status( 500 ).json({
-                                   title: 'An error occurred fetching services data',
-                                   error: err
-                               });
-                           }
-
-                           res. status(200).json({
-                               message: 'Success! Services fetched!',
-                               obj: fetchedServicesRes
-                           });
-                       }
-                   );
-        }
+        router.get( '/', ( req, res, next ) => {
+            Service.find().sort({ createdAt: -1 }).populate('user').exec(
+                ( err, foundServices ) => {
+                    if ( err ) {
+                        return res.status( 500 ).json({ success: false, msg: 'An error occurred fetching services.' });
+                    } else {
+                        res.status( 200 ).json({ success: true, msg: 'Success! Services fetched!', services: foundServices });
+                    }
+                }
+            );
+        });
 
 
     // ROUTE AUTHENTICATION - MAKE SURE VALID USER LOGGED IN FOR CRUD
-        router.use( '/', authenticate );
-
-        function authenticate ( req, res, next ) {
-            jwt.verify(req.query.token, config.secret, decodedTokenRes );
-
-            function decodedTokenRes ( err, decodedToken ) {
+        router.use( '/', ( req, res, next ) => {
+            jwt.verify( req.query.token, config.secret, ( err, verifiedToken ) => {
                 if ( err ) {
-                    return res.status(401).json({
-                        title: 'Authentication failed, cannot pass',
-                        error: err
-                    });
+                    return res.status( 401 ).json({ success: false, msg: 'Authentication failed!' });
                 }
-                
-                next();
-            }
-        }
 
+                next();
+            });
+        });
     
     // MULTER IMPLEMENTATION - storing files to disk storage
         const multer = require('multer');
@@ -74,192 +53,121 @@
 
     
     // POST SERVICE DATA
-        router.post( '/', upload.single('serviceImage'), registerService );
-
-        function registerService ( req, res, next ) {
-
-            let decodedToken = jwt.decode(req.query.token);
-
-            User.findById( decodedToken.user._id.toString(), addUserToService );
-
-            function addUserToService ( err, loggedInUser ) {
-                if (err) {
-                    return res.status(500).json({
-                        title: 'An error occurred locating service user information',
-                        error: err
-                    });
+        router.post( '/', upload.single('serviceImage'), ( req, res, next ) => {
+            let decodedToken = jwt.decode( req.query.token );
+            User.findById( decodedToken.user._id.toString(), ( err, loggedInUser ) => {
+                if ( err ) { 
+                    return res.status( 500 ).json({ success: false, msg: 'Error locating service user info.'});
                 }
 
-                const body = {
+                let service = new Service({
                     name: req.body.name,
                     price: req.body.price,
                     description: req.body.description,
                     category: req.body.category,
                     user: loggedInUser,
                     image: req.file
-                };
+                });
 
-                let service = new Service( body );
-
-                service.save( createServiceResCallBack );
-
-                function createServiceResCallBack ( err, createdServiceObj ) {
+                service.save( ( err, savedService ) => {
                     if ( err ) {
-                        return res. status(500).json({
-                            title: 'An error occurred registering service to database',
-                            error: err
-                        });
+                        return res.status( 500 ).json({ success: false, msg: 'Error saving service to db.' });
+                    } else {
+                        loggedInUser.services.push( savedService );
+                        loggedInUser.save();
+
+                        res.status( 201 ).json({ success: true, msg: 'Service saved to db.', obj: savedService });
                     }
+                });
+            });
+        });
 
-                    loggedInUser.services.push(createdServiceObj);
-                    loggedInUser.save();
-
-                    res.status(201).json({
-                        message: 'Service saved to DB',
-                        obj: createdServiceObj
-                    });
-                }
-            }
-        }
-
+        
     // PATCH 
-        router.patch ('/:id', upload.single('serviceImage'), editService );
-
-        function editService ( req, res, next ) {
+        router.patch('/:id', upload.single('serviceImage'), ( req, res, next ) => {
             let decodedToken = jwt.decode( req.query.token );
             let serviceId = req.params.id;
 
-            Service.findById(serviceId, editServiceRes );
+            Service.findById( serviceId, ( err, serviceToEdit) => {
+                if ( err ) { return res.status( 500 ).json({ success: false, msg: 'Error retrieving service to edit' }); }
+                if ( !serviceToEdit ) { return res.status( 500 ).json({ success: false, msg: 'Error, service not found' }); } 
+                if ( serviceToEdit.user.toString() !== decodedToken.user._id.toString() ) { return res.status( 401 ).json({ success: false, msg: 'Not same User' }); }
 
-            function editServiceRes ( err, serviceToEdit ) {
-                if ( err ) {
-                    return res.status(500).json({
-                        title: 'An error occurred retrieving the requested service to edit',
-                        error: err
-                    });
-                }
+                let pathBeforeEdit = serviceToEdit.image ? serviceToEdit.image.path : '';
 
-                if ( !serviceToEdit ) {
-                    return res.status(500).json({
-                        title: 'Error, service not found',
-                        error: { message: 'Service not found' }
-                    });
-                }
+                serviceToEdit.name          =   req.body.name;
+                serviceToEdit.price         =   req.body.price;
+                serviceToEdit.description   =   req.body.description;
+                serviceToEdit.category      =   req.body.category;
+                serviceToEdit.image         =   serviceToEdit.image ? serviceToEdit.image : req.file;
 
-                if ( serviceToEdit.user.toString() !== decodedToken.user._id.toString() ) {
-                    return res.status(401).json({
-                        title: 'Not Service author cannot edit',
-                        error: { message: 'You are not user of this service' }
-                    });
-                }
+                serviceToEdit.save( ( err, updatedService ) => {
+                    if ( err ) { return res.status( 500 ).json({ success: false, msg: 'Error: Cannot update/edit service', error: err }); }
+                    
+                    if ( updatedService.image ) {
+                        if (updatedService.image.path !== pathBeforeEdit) {
+                            fs.stat(pathBeforeEdit, (err, stats) => {
+                                console.log(stats);
 
-                const pathBeforeEdited = serviceToEdit.image.path;
+                                if (err) {
+                                    return console.error(err);
+                                } else {
+                                    fs.unlink(pathBeforeEdit, (err) => {
+                                        if (err) {
+                                            return console.log(err);
+                                        } else {
+                                            console.log('Old image removed from disk before adding new image!');
+                                        }
+                                    });
+                                }
 
-                serviceToEdit.name = req.body.name;
-                serviceToEdit.price = req.body.price;
-                serviceToEdit.description = req.body.description;
-                serviceToEdit.category = req.body.category;
-                serviceToEdit.image = req.file;
-
-                
-
-                serviceToEdit.save((err, editedServiceObj) => {
-                    if ( err ) {
-                        return res.status(500).json({
-                            title: 'An error occurred updating/editing the service',
-                            error: err
-                        });
-                    }
-                    if (editedServiceObj.image.path !== pathBeforeEdited) {
-                        fs.stat(pathBeforeEdited, deleteImage);
-                    }
-
-                    function deleteImage(err, stats) {
-                        console.log(stats);
-
-                        if (err) {
-                            return console.error(err);
+                            });
                         }
-
-                        fs.unlink(pathBeforeEdited, (err) => {
-                            if (err) {
-                                return console.log(err);
-                            }
-
-                            console.log('Old image removed from disk before adding new image!');
-                        });
                     }
-                    res.status(200).json({
-                        message: 'Service and image updated!',
-                        obj: editedServiceObj
-                    });
-
+                    
+                    res.status( 200 ).json({ success: true, msg: 'Service and image updated!', service: updatedService });
                 });
-            }
-        }
+            });
+        });
 
     
     // DELETE
-        router.delete( '/:id', deleteService );
-
-        function deleteService ( req, res, next ) {
-            
+        router.delete( '/:id', ( req, res, next ) => {
+            let decodedToken = jwt.decode( req.query.token );
             let serviceId = req.params.id;
-            let decodedToken = jwt.decode(req.query.token);
 
-            Service.findById( serviceId, (err, serviceToDelete ) => {
-                if ( err ) {
-                    return res.status(500).json({
-                        title: 'An error occurred retrieving service for deletion',
-                        error: err
-                    });
-                }
+            Service.findById( serviceId, ( err, serviceToDelete ) => {
 
-                if ( !serviceToDelete ) {
-                    return res.status(500).json({
-                        title: 'An error occurred, no service found to delete',
-                        error: { message: 'Service not found' }
-                    });
-                }
-                console.log(serviceToDelete);
-                console.log(decodedToken.user._id);
+                if ( err ) { return res.status( 500 ).json({ success: false, msg: 'An error occurred retrieving service for deletion' }); }
+                if ( !serviceToDelete ) { return res.status( 500 ).json({ success: false, msg: 'Error, no service found to delete' }); }
                 if ( serviceToDelete.user.toString() !== decodedToken.user._id.toString() ) {
-                    return res.status(401).json({
-                        title: 'Not authenticated, cannot delete service',
-                        error: { message: 'Users do not match' }
-                    });
+                    return res.status( 401 ).json({ success: false, msg: 'Not same User.'});
                 }
 
-                fs.stat( serviceToDelete.image.path, deleteImage );
-                    function deleteImage ( err, stats ) {
-                        console.log( stats );
+                serviceToDelete.remove(( err, deletedService ) => {
+                    if ( err ) { 
+                        return res.status( 500 ).json({ success: false, msg: 'Could not delete service.' }); 
+                    } else {
+                        fs.stat(serviceToDelete.image.path, (err, stats) => {
+                            console.log(stats);
+                            if (err) { return console.error(err); }
 
-                        if ( err ) {
-                            return console.error( err );
-                        }
-
-                        fs.unlink( serviceToDelete.image.path, ( err ) => {
-                            if ( err ) return console.log(err);
-                            console.log('image successfully deleted from diskStorage!');
+                            fs.unlink(serviceToDelete.image.path, (err) => {
+                                if (err) {
+                                    console.log('Image removed from disk.');
+                                    return console.error(err);
+                                }
+                            });
                         });
-                    }
 
-                serviceToDelete.remove(( err, deletedServiceObj) => {
-                    if ( err ) {
-                        return res.status(500).json({
-                            title: 'An error occurred deleting service data',
-                            error: err
-                        });
+                        res.status( 200 ).json({ success: true, msg: 'Service deleted from db', obj: deletedService });
                     }
-
-                    res.status(200).json({
-                        message: 'Service deleted!',
-                        obj: deletedServiceObj
-                    });
                 });
 
             });
-        }
+        });
+
+       
 
 // EXPORT ROUTER
     module.exports = router;

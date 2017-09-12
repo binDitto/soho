@@ -4,8 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'service-nav',
   template: `
     <div class="container">
-      <h4>Router Pages</h4>
-      <router-outlet></router-outlet>
+      <router-outlet>SERVICES NAV</router-outlet>
     </div>
   `
 })

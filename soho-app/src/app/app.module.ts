@@ -12,6 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AppComponent } from './app.component';
     BrowserModule,
     MainRouter,
     FormsModule,
-    HttpModule
+    HttpModule,
+    FlashMessagesModule
   ],
   providers: [ UserService, ServiceService ],
   bootstrap: [AppComponent]

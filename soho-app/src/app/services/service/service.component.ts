@@ -22,7 +22,7 @@ export class ServiceComponent implements OnInit {
     }
 
     onEdit() {
-      // event.preventDefault();
+      event.preventDefault();
       this.serviceService.editService( this.service );
     }
 

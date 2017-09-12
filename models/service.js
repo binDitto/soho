@@ -17,7 +17,7 @@
             required: true,
             ref: 'User'
         },
-        image: { type: Object, required: true },
+        image: { type: Object, required: false },
         createdAt: { type: Date, default: Date.now }
     });
 

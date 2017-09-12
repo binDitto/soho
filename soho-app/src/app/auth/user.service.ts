@@ -1,84 +1,75 @@
-// REQUIRED
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-
-// ADDITIONAL OPERATORS
+import { tokenNotExpired } from 'angular2-jwt';
 import { Observable } from 'rxjs';
 import 'rxjs/Rx';
-
-// IMPORT BACK END ENVIRONMENT
+import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
-
-// IMPORT USER MODEL
 import { User } from './user.model';
 
 @Injectable()
 export class UserService {
+  usertoken: any;
+  user: any;
   loggedInUser: User;
   users: User[];
-
-  /* Will set back end url depending on environment */
   backEnd = environment.backEndUrl;
 
-  constructor (
-    private http: Http
-  ){}
+  constructor ( private http: Http ){}
 
-  // POST REGISTER
     register( userToRegister: User ) {
-      const reqBody = JSON.stringify(userToRegister);
-      const jsonHeader = new Headers({ 'Content-Type': 'application/json' });
+      let headers = new Headers();
+          headers.append('Content-Type', 'application/json');
 
-      return this.http.post( this.backEnd + 'users', reqBody, { headers: jsonHeader })
-                      .map(
-                        ( createdUserRes: Response ) => {
-                          createdUserRes.json();
-                          console.log(createdUserRes);
-                        }
-                      )
-                      .catch(
-                        ( error: Response ) => {
-
-                          return Observable.throw( error.json() );
-                        }
-                      );
+      return this.http.post( this.backEnd + 'users', userToRegister, { headers: headers })
+                      .map( createdUserRes  => createdUserRes.json() )
+                      .catch( error => Observable.throw( error.json() ) );
     }
 
-  // POST LOGIN
-    login( userToLogin: User ) {
-      const reqBody = JSON.stringify( userToLogin );
-      const jsonHeader = new Headers({ 'Content-Type': 'application/json' });
+    login( userToLogin ) {
+      let headers = new Headers();
+          headers.append('Content-Type', 'application/json');
 
-      return this.http.post( this.backEnd + 'users/login', reqBody, { headers: jsonHeader })
-                      .map(
-                        ( signedInUserRes: Response ) => signedInUserRes.json()
-                      )
-                      .catch(
+      const userbody = JSON.stringify(userToLogin);
 
-                        ( dataError: Response ) => {
-                          return Observable.throw(dataError.json());
-                        }
-                      );
+      return this.http.post( this.backEnd + 'users/login', userToLogin, { headers: headers })
+                      .map( signedInUserRes  => signedInUserRes.json() )
+                      .catch( dataError => Observable.throw( dataError.json() ) );
     }
 
-  // CHECK LOGIN STATUS
-    isLoggedIn() {
-      return localStorage.getItem('token') !== null;
-    }
+            isLoggedIn() {
+              return localStorage.getItem('token') !== null && tokenNotExpired('token') !== false;
+            }
 
-  // GET PROFILE
+            storeUserData( token, user ) {
+              localStorage.setItem('token', token);
+              localStorage.setItem('user', JSON.stringify( user ));
+              localStorage.setItem('userId', user.id);
+              this.usertoken = token;
+              this.user = user;
+            }
+
+            loadToken() {
+              const token = localStorage.getItem('token') ? localStorage.getItem('token') : '';
+              const user = localStorage.getItem('user') ? localStorage.getItem('user') : '';
+              this.usertoken = token;
+              this.user = user;
+            }
+
     getProfile() {
-      const user = localStorage.getItem('userId') ? localStorage.getItem('userId') : '';
+
+      let headers = new Headers();
+          headers.append('Content-Type', 'application/json');
+
+      let user = localStorage.getItem('userId') ? localStorage.getItem('userId') : '';
 
       if ( user !== '' ) {
-        return this.http.get( this.backEnd + 'users/' + user )
-                        .map(
-                          ( userDataRes: Response ) => {
+        return this.http.get( this.backEnd + 'users/' + user, { headers: headers } )
+                        .map( userDataRes => {
                             const pulledUserData = userDataRes.json();
 
                             const backToFront = new User(
                               pulledUserData.user.email,
-                              pulledUserData.user.password,
                               pulledUserData.user.firstName,
                               pulledUserData.user.lastName,
                               pulledUserData.user.userName,
@@ -91,21 +82,15 @@ export class UserService {
 
                             this.loggedInUser = backToFront;
 
-                            const backEndMsg = pulledUserData.message;
-                            console.log( backEndMsg );
+                            console.log('Success: ' + pulledUserData.success + ', Message: ' + pulledUserData.msg);
 
                             return this.loggedInUser;
                           }
                         )
-                        .catch(
-                          ( dataError: Response ) => {
-                            return Observable.throw( dataError.json());
-                          }
-                        );
+                        .catch( dataError  => Observable.throw( dataError.json() ) );
       }
     }
 
-  // LOGOUT FUNCTIONALITY
     logOut(){
       localStorage.clear();
     }

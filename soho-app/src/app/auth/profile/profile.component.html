@@ -1,7 +1,7 @@
 <div class="col-md-6 col-md-offset-3">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h1>{{userProfile?.userName}}'s Profile</h1>
+      <h1>{{profile?.userName}}'s Profile</h1>
     </div>
     <div class="panel-body">
       <table class="table">
@@ -9,38 +9,38 @@
           <tr>
             <td>User Id:</td>
             <td>
-              <span class="label label-success">{{userProfile?.userId}}</span>
+              <span class="label label-success">{{profile?.userId}}</span>
             </td>
           </tr>
           <tr>
             <td>Name:</td>
             <td>
-              <span class="label label-success">{{userProfile?.firstName}} {{userProfile?.lastName}}</span>
+              <span class="label label-success">{{profile?.firstName}} {{profile?.lastName}}</span>
             </td>
           </tr>
           <tr>
             <td>Username:</td>
             <td>
-              <span class="label label-success">{{userProfile?.userName}}</span>
+              <span class="label label-success">{{profile?.userName}}</span>
             </td>
           </tr>
           <tr>
             <td>Email:</td>
             <td>
-              <span class="label label-success">{{userProfile?.email}}</span>
+              <span class="label label-success">{{profile?.email}}</span>
             </td>
           </tr>
           <tr>
             <tr>
               <td>Admin:</td>
               <td>
-                <span class="label label-success">{{userProfile?.admin}}</span>
+                <span class="label label-success">{{profile?.admin}}</span>
               </td>
             </tr>
             <tr>
               <td>Joined:</td>
               <td>
-                <span class="label label-success">{{userProfile?.createdAt | date:'yMMMd'}} {{userProfile.createdAt | date:'jm'}}</span>
+                <span class="label label-success">{{profile?.createdAt | date:'yMMMd'}} {{profile?.createdAt | date:'jm'}}</span>
               </td>
             </tr>
         </tbody>

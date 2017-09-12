@@ -3,128 +3,85 @@
     const router = express.Router();
     const bcrypt = require('bcryptjs');
     const jwt = require('jsonwebtoken');
-
-// IMPORT MODELS TO USE
+    const config = require('.././config/database');
     const User = require('../models/user');
 
-// IMPORT CONFIG SECRET PASSCODE
-    const config = require('.././config/database');
-
 // CREATE USER
-    router.post( '/', registerUser );
-
-    /* Register User Function */
-    function registerUser ( req, res, next ) {
-
-        const body = {
+    router.post( '/', ( req, res, next ) => {
+        let newUser = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             userName: req.body.userName,
-            password: bcrypt.hashSync(req.body.password, 10),
+            password: bcrypt.hash( req.body.password, 10),
             email: req.body.email
-        };
+        });
 
-        const user = new User( body );
-
-        User.count( {}, setAdmin );
-
-        function setAdmin ( err, count ) {
+        User.count( {}, (err, count ) => {
             if ( count === 0 ) {
-                user.admin = true;
-                console.log( 'User admin set to ' + user.admin );
+                newUser.admin = true;
+                console.log( 'User admin set to: ' + newUser.admin );
             } else {
-                user.admin = false;
-                console.log( 'User admin set to ' + user.admin );
+                newUser.admin = false;
+                console.log( 'User admin set to ' + newUser.admin );
             }
-        }
+        });
 
-        user.save( errResCallback );
+        User.addUser( newUser, ( err, createdUser ) => {
+            if ( err ) { 
+                return res.status( 500 ).json({ success: false, msg: 'Failed to register user.'});
+            } else {
+                res.status(201).json({ success: true, msg: 'User registered' });
+            }
+        });
+    });
 
-        function errResCallback ( err, createdUserRes ) {
-
-            const errorObj = {
-                title: 'Error creating User to db',
-                error: err
-            };
-
-            const userObj = {
-                message: 'User successfully registerd to the database!',
-                user: createdUserRes
-            };
-
-            if ( err ) { return res.status(500).json(errorObj); }
-
-            res.status( 201 ).json( userObj );
-        }
-    }
 
 // LOG IN USER
-    router.post( '/login', loginUser );
-
-    function loginUser ( req, res, next ) {
-        User.findOne( { email: req.body.email }, authenticateLogin );
-        function authenticateLogin ( err, foundUser ) {
-
-            const errorObj = {
-                title: 'Error logging in User, N/A',
-                error: err
-            };
-
-            const noneFound = {
-                title: 'Login failed.',
-                error: { message: 'Invalid login credentials' }
-            };
-
-            const notMatched = {
-                title: 'Login failed. Login fields are wrong',
-                error: { message: 'Invalid login credentials' }
-            };
-
-            const comparePasswords = bcrypt.compareSync( req.body.password, foundUser.password );
-
-            if ( err ) { return res.status(500).json(errorObj); }
-
-            if ( !foundUser ) { return res.status(500).json(noneFound); }
+    router.post( '/login', ( req, res, next ) => {
+        User.findOne( { email: req.body.email }, ( err, foundUser ) => {
             
-            if ( !comparePasswords ) { return res.status(401).json(notMatched); }
+            if ( err ) { 
+                return res.status( 500 ).json({ success: false, msg: 'Error logging in User, N/A' });
+            }
+            
+            if ( !foundUser ) {
+                return res.status( 500 ).json({ success: false, msg: 'User not found' });
+            }
 
-            /* Entered fields match a found User */
+            if ( !bcrypt.compareSync( req.body.password, foundUser.password) ) {
+                return res.status( 401 ).json({ success: false, msg: 'Login failed. Login fields do not match' });
+            }
+            
+            let userToken = jwt.sign({ user: foundUser }, config.secret, { expiresIn: 7200 });
 
-            let foundUserToken = jwt.sign( { user: foundUser }, config.secret, { expiresIn: 7200 } );
+            res.status( 200 ).json({ 
+                success: true, 
+                msg: 'Successfully logged in.', 
+                token: userToken, 
+                user: {
+                    id: foundUser._id,
+                    userName: foundUser.userName,
+                    email: foundUser.email,
+                    lastName: foundUser.lastName,
+                    firstName: foundUser.firstName,
+                    image: foundUser.image,
+                    services: foundUser.services
+                } 
+            });
+        });
+    });
 
-            const loggedInObj = {
-                message: 'Successfully logged In',
-                token: foundUserToken,
-                user: foundUser
-            };
 
-            res.status(200).json(loggedInObj);
-
-        }
-    }
-
-// FETCH A SINGLE USER 
-    router.get('/:id', fetchUser);
-
-    function fetchUser ( req, res, next ) {
-
-        User.findById( req.params.id, returnUser);
-
-        function returnUser ( err, foundUser ) {
-            const cantFetch = {
-                title: 'Cannot retrieve user profile',
-                error: err
-            };
-            const canFetch = {
-                message: 'User Profile retrieved',
-                user: foundUser
-            };
-
-            if ( err ) { return res.status(500).json(cantFetch); }
-            res.status(200).json(canFetch);
-        }
-
-    }
+// FETCH USER PROFILE
+    router.get('/:id', ( req, res, next ) => {
+        User.findById( req.params.id, ( err, foundUser ) => {
+            if ( err ) {
+                return res.status( 500 ).json({ success: false, msg: 'Cannot retreive User profile' });
+            } else {
+                res.status( 200 ).json({ success: true, msg: 'User profile retrieved.', user: foundUser });
+            }
+        });
+    });
 
 // EXPORT THE ROUTER
     module.exports = router;

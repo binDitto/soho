@@ -5,8 +5,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'user-nav',
   template: `
     <div class="container">
-      <h3>Will display User pages</h3>
-      <router-outlet></router-outlet>
+      <router-outlet>User Routes</router-outlet>
     </div>
   `
 })

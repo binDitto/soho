@@ -4,6 +4,7 @@ import { Service } from '../service.model';
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 declare const jQuery: any;
 
 @Component({
@@ -18,10 +19,7 @@ export class ServiceFormComponent implements OnInit {
   categories: Array<Object>;
 
 
-  constructor(
-    private router: Router,
-    private serviceService: ServiceService
-  ) {
+  constructor( private router: Router, private serviceService: ServiceService, private flash: FlashMessagesModule ) {
 
     this.categories = [
       { value: 'Manicure' },
@@ -30,73 +28,89 @@ export class ServiceFormComponent implements OnInit {
       { value: 'Waxing' }
     ];
 
+
+
   }
 
   ngOnInit() {
-    this.serviceService.sendEditSignal.subscribe(
-      ( serviceToEditReq: Service ) => this.service = serviceToEditReq
-    );
+    if ( !this.service) {
+      this.serviceService.sendEditSignal.subscribe(serviceToEdit => this.service = serviceToEdit);
+    }
   }
 
-    imageUpEvent( imageEvent: any ) {
-      this.image = <File>imageEvent.target.files;
-    }
+  imageUpEvent( imageEvent: any ) { this.image = <File>imageEvent.target.files; }
 
-    onSave( form: NgForm ) {
-      console.log( form );
+  onSave( form: NgForm ) {
+    console.log( form );
 
-      if ( this.service ) {
-        // EDIT
-        const serviceToEdit = new FormData();
+    if ( this.service ) {
+      // EDIT
+        // this will change the new data;
+        this.service.name = form.value.name;
+        this.service.description = form.value.description;
+        this.service.category = form.value.category;
+        this.service.price = form.value.price;
 
-            if ( this.image ) {
-              serviceToEdit.append('serviceImage', this.image[0], this.image[0].name);
-            }
-              serviceToEdit.append('name', form.value.name);
-              serviceToEdit.append('description', form.value.description);
-              serviceToEdit.append('category', form.value.category);
-              serviceToEdit.append('price', form.value.price);
+      const serviceToEdit = new FormData();
 
-              this.serviceService.updateService( serviceToEdit, this.service.id )
-                                .subscribe(
+          if ( this.image ) {
+            serviceToEdit.append('serviceImage', this.image[0], this.image[0].name);
+          }
+            serviceToEdit.append('name', form.value.name);
+            serviceToEdit.append('description', form.value.description);
+            serviceToEdit.append('category', form.value.category);
+            serviceToEdit.append('price', form.value.price);
+
+            this.serviceService.updateService( serviceToEdit, this.service.id )
+                               .subscribe(
                                   ( serviceEditedRes ) => {
-                                    console.log( serviceEditedRes.message );
-                                    this.service = serviceEditedRes;
-                                    this.router.navigate(['/services']);
+                                    if ( serviceEditedRes.success ) {
+                                      console.log( serviceEditedRes.service );
+                                      this.service = serviceEditedRes.service;
+                                      console.log( this.service );
+                                      console.log( 'Success: ' + serviceEditedRes.success + ', ' + serviceEditedRes.msg );
+
+
+                                    } else {
+                                      console.log('Success: ' + serviceEditedRes.success + ', ' + serviceEditedRes.error);
+                                    }
+                                  }
+                              );
+
+      // reset form
+      this.service = null;
+
+    } else {
+      // NEW
+
+      const serviceData = new FormData();
+        if ( this.image ) {
+            serviceData.append('serviceImage', this.image[0], this.image[0].name);
+
+        }
+            serviceData.append('name', form.value.name);
+            serviceData.append('description', form.value.description);
+            serviceData.append('price', form.value.price);
+            serviceData.append('category', form.value.category);
+            console.log('Service Data : ' + serviceData.toString());
+
+            this.serviceService.addService( serviceData )
+                                .subscribe(
+                                  (createdServiceRes) => {console.log( createdServiceRes);
                                   }
                                 );
 
-        // reset form
-        this.service = null;
-
-      } else {
-        // NEW
-
-        const serviceData = new FormData();
-              serviceData.append('serviceImage', this.image[0], this.image[0].name);
-              serviceData.append('name', form.value.name);
-              serviceData.append('description', form.value.description);
-              serviceData.append('price', form.value.price);
-              serviceData.append('category', form.value.category);
-              console.log('Service Data : ' + serviceData.toString());
-
-              this.serviceService.addService( serviceData )
-                                 .subscribe(
-                                   (createdServiceRes) => {console.log( createdServiceRes);
-                                   this.router.navigateByUrl('/services');}
-                                 );
-
-      }
-
-
-      jQuery('#myModal').modal('hide');
-
-      form.resetForm();
-
     }
 
-    onClear( form: NgForm ){
-      form.resetForm();
-      this.service = null;
-    }
+    this.router.navigateByUrl('/services');
+    jQuery('#myModal').modal('hide');
+
+    form.resetForm();
+
+  }
+
+  onClear( form: NgForm ){
+    form.resetForm();
+    this.service = null;
+  }
 }

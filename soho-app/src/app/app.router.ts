@@ -6,8 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 
 const MainRoutes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'users', component: UserNavComponent, loadChildren: './auth/user.module#UserModule' },
   { path: 'services', component: ServiceOutletComponent, loadChildren: './services/service.module#ServiceModule'}
 ];

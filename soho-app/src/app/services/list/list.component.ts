@@ -16,17 +16,13 @@ export class ServiceListComponent implements OnInit {
   admin: Boolean;
   currentUser;
 
-  constructor(
-    private serviceService: ServiceService,
-    private userService: UserService
-  ) {
+  constructor( private serviceService: ServiceService, private userService: UserService ) {
     this.currentUser = localStorage.getItem('userId') || null;
   }
 
   ngOnInit() {
 
-    if ( this.currentUser ) {
-      this.userService.getProfile().subscribe(
+    if ( this.currentUser ) { this.userService.getProfile().subscribe(
         ( profile ) => {
           this.admin = profile.admin;
           console.log('Admin: ' + profile.admin);
@@ -34,12 +30,9 @@ export class ServiceListComponent implements OnInit {
       )
     }
 
-      this.serviceService.getServices().subscribe(
-        (services: Service[]) => {
-          this.services = services;
-        }
-      )
-
+    if ( this.serviceService.services ) {
+      this.serviceService.getServices().subscribe( services => this.services = services )
+    }
   }
 
   isAdmin() {
