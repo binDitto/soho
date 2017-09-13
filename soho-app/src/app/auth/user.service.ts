@@ -17,13 +17,19 @@ export class UserService {
 
   constructor ( private http: Http ){}
 
-    register( userToRegister ) {
+    register( userToMake) {
       let headers = new Headers();
           headers.append('Content-Type', 'application/json');
-      const jsonBody = JSON.stringify(userToRegister);
 
-      return this.http.post( this.backEnd + 'users', jsonBody, { headers: headers })
-                      .map( createdUserRes  => createdUserRes.json() );
+      const jsonBody = JSON.stringify( userToMake );
+
+      return this.http.post( this.backEnd + 'users', userToMake, { headers: headers })
+                      .map( createdUserRes  => createdUserRes.json() )
+                      .catch( error => {
+                        console.log('Success: ' + error.json().success + ', ' + error.json().msg )
+                        console.log( error.json());
+                        return Observable.throw(error.json());
+                      });
     }
 
     login( userToLogin ) {
@@ -37,7 +43,8 @@ export class UserService {
     }
 
             isLoggedIn() {
-              return localStorage.getItem('token') !== null && tokenNotExpired('token') !== true;
+              // console.log(tokenNotExpired());
+              return tokenNotExpired('token');
             }
 
             storeUserData( token, user ) {

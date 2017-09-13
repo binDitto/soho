@@ -49,7 +49,12 @@ export class ServiceService {
                           console.log(this.services.length + ' Services fetched!');
                           return transformedServices;
                         }
-                      );
+                      ).catch( error => {
+                        let jsonerr = error.json();
+                        console.log( jsonerr.error );
+                        console.log('Success: ' + jsonerr.success + ', ' + jsonerr.msg );
+                        return Observable.throw( jsonerr );
+                      });
     }
 
   // CREATE
@@ -76,9 +81,16 @@ export class ServiceService {
                           );
 
                           this.services.unshift( newService );
-                          return newService;
+
+                          const newobject = { data: newServiceData, service: newService };
+                          return newobject;
                         }
-                      );
+                      ).catch( error => {
+                        let jsonerr = error.json();
+                        console.log( jsonerr.error );
+                        console.log('Success: ' + jsonerr.success + ', ' + jsonerr.msg);
+                        return Observable.throw( jsonerr );
+                      });
     }
 
   // EDIT
@@ -94,7 +106,13 @@ export class ServiceService {
           headers.append('enctype', 'multipart/form-data');
 
       return this.http.patch( this.backEnd + 'services/' + serviceId + this.queryToVerify, serviceToUpdate, { headers: headers })
-                      .map( updatedServiceRes => updatedServiceRes.json() );
+        .map(updatedServiceRes => updatedServiceRes.json()).catch(
+          error => {
+          let jsonerr = error.json();
+          console.log(jsonerr.error);
+          console.log('Success: ' + jsonerr.success + ', ' + jsonerr.msg);
+          return Observable.throw(jsonerr);
+        });
     }
 
   // DELETE

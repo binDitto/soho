@@ -12,7 +12,7 @@
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             userName: req.body.userName,
-            password: bcrypt.hash( req.body.password, 10),
+            password: bcrypt.hashSync( req.body.password, 10),
             email: req.body.email
         });
 
@@ -26,7 +26,7 @@
             }
         });
 
-        User.addUser( newUser, ( err, createdUser ) => {
+        newUser.save( ( err, createdUser ) => {
             if ( err ) { 
                 return res.status( 500 ).json({ success: false, msg: 'Failed to register user.', error: err });
             } else {

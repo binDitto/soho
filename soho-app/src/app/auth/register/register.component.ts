@@ -4,7 +4,7 @@ import { User } from '../user.model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { FlashMessagesModule } from 'angular2-flash-messages';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'register-page',
@@ -26,7 +26,7 @@ export class UserRegisterComponent implements OnInit {
   constructor (
     private userservice: UserService,
     private router: Router,
-    private flash: FlashMessagesModule
+    private flash: FlashMessagesService
   ) {}
 
   ngOnInit () {
@@ -46,17 +46,18 @@ export class UserRegisterComponent implements OnInit {
       this.userservice.register( userToMake )
                       .subscribe(
                         createdUserRes => {
-                          if (createdUserRes.success) {
+
                             console.log('Success: ' + createdUserRes.success + ', ' + createdUserRes.msg );
                             console.log( createdUserRes.user);
-                          } else {
-                            console.log('Success: ' + createdUserRes.success + ', ' + createdUserRes.msg + ', ' + createdUserRes.error);
-                          }
-                        }
-                      );
+                            this.flash.show( createdUserRes.msg, { cssClass: 'alert-success', timeout: 5000 });
+                            this.registerForm.reset();
+                            this.router.navigate(['users', 'login']);
 
-      this.registerForm.reset();
-      this.router.navigate(['users', 'login']);
+                        },
+                        error => {
+                          console.log('Success: ' + error.success + ', ' + error.msg );
+                          this.flash.show( error.msg, { cssClass: 'alert-danger', timeout: 5000 });
+                        });
     }
 
   // CLOSING MODAL WHEN IT'S OPENED

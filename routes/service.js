@@ -125,7 +125,7 @@
                         }
                     }
                     
-                    res.status( 200 ).json({ success: true, msg: 'Service and image updated!', service: updatedService });
+                    res.status( 200 ).json({ success: true, msg: 'Service successfully updated!', service: updatedService });
                 });
             });
         });

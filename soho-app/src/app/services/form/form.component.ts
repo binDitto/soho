@@ -4,7 +4,7 @@ import { Service } from '../service.model';
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FlashMessagesModule } from 'angular2-flash-messages';
+import { FlashMessagesService } from 'angular2-flash-messages';
 declare const jQuery: any;
 
 @Component({
@@ -19,7 +19,7 @@ export class ServiceFormComponent implements OnInit {
   categories: Array<Object>;
 
 
-  constructor( private router: Router, private serviceService: ServiceService, private flash: FlashMessagesModule ) {
+  constructor( private router: Router, private serviceService: ServiceService, private flash: FlashMessagesService ) {
 
     this.categories = [
       { value: 'Manicure' },
@@ -64,18 +64,18 @@ export class ServiceFormComponent implements OnInit {
             this.serviceService.updateService( serviceToEdit, this.service.id )
                                .subscribe(
                                   ( serviceEditedRes ) => {
-                                    if ( serviceEditedRes.success ) {
+
                                       console.log( serviceEditedRes.service );
                                       this.service = serviceEditedRes.service;
                                       console.log( this.service );
                                       console.log( 'Success: ' + serviceEditedRes.success + ', ' + serviceEditedRes.msg );
+                                      this.flash.show(serviceEditedRes.msg, { cssClass: 'alert-success', timeout: 5000 });
+                                      this.router.navigateByUrl('/services');
 
-
-                                    } else {
-                                      console.log('Success: ' + serviceEditedRes.success + ', ' + serviceEditedRes.msg + ', ' + serviceEditedRes.error);
-                                    }
-                                  }
-                              );
+                                  },
+                                  error => {
+                                    this.flash.show( error.msg, { cssClass: 'alert-danger', timeout: 5000 });
+                                  });
 
       // reset form
       this.service = null;
@@ -97,13 +97,17 @@ export class ServiceFormComponent implements OnInit {
             this.serviceService.addService( serviceData )
                                 .subscribe(
                                   (createdServiceRes) => {
-                                    console.log( createdServiceRes);
-                                  }
-                                );
+                                    console.log(createdServiceRes.service);
+                                    console.log('Success: ' + createdServiceRes.data.success + ', ' + createdServiceRes.data.msg);
+                                    this.flash.show(createdServiceRes.data.msg, { cssClass: 'alert-success', timeout: 5000 });
+                                  },
+                                  error => {
+                                    this.flash.show( error.msg, { cssClass: 'alert-danger', timeout: 5000 });
+                                  });
 
     }
 
-    this.router.navigateByUrl('/services');
+
     jQuery('#myModal').modal('hide');
 
     form.resetForm();

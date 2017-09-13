@@ -18,7 +18,7 @@ export class NavBarComponent implements OnInit {
     this.userFirstName = '';
   }
   ngOnInit (){
-    if( localStorage.getItem('userId') !== null ) {
+    if( localStorage.getItem('userId') ) {
       this.userservice.getProfile().subscribe(
         profile => this.userFirstName = profile.firstName
       );

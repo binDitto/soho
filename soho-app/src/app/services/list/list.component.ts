@@ -2,6 +2,7 @@ import { Service } from '../service.model';
 import { UserService } from '../../auth/user.service';
 import { ServiceService } from '../service.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'service-list',
@@ -16,7 +17,7 @@ export class ServiceListComponent implements OnInit {
   admin: Boolean;
   currentUser;
 
-  constructor( private serviceService: ServiceService, private userService: UserService ) {
+  constructor( private serviceService: ServiceService, private userService: UserService, private flash: FlashMessagesService ) {
     this.currentUser = localStorage.getItem('userId') || null;
   }
 
@@ -31,7 +32,11 @@ export class ServiceListComponent implements OnInit {
     }
 
     if ( this.serviceService.services ) {
-      this.serviceService.getServices().subscribe( services => this.services = services )
+      this.serviceService.getServices().subscribe( services => this.services = services,
+                                                   error => {
+                                                     this.flash.show( error.msg, { cssClass: 'alert-danger', timeout: 5000} );
+
+                                                   } );
     }
   }
 
