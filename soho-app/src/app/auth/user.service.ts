@@ -17,7 +17,7 @@ export class UserService {
 
   constructor ( private http: Http ){}
 
-    register( userToRegister: User ) {
+    register( userToRegister ) {
       let headers = new Headers();
           headers.append('Content-Type', 'application/json');
       const jsonBody = JSON.stringify(userToRegister);
