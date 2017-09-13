@@ -69,9 +69,10 @@ export class ServiceFormComponent implements OnInit {
                                       this.service = serviceEditedRes.service;
                                       console.log( this.service );
                                       console.log( 'Success: ' + serviceEditedRes.success + ', ' + serviceEditedRes.msg );
+                                      window.location.reload();
                                       this.flash.show(serviceEditedRes.msg, { cssClass: 'alert-success', timeout: 5000 });
                                       this.router.navigateByUrl('/services');
-                                      window.location.reload();
+                                      
 
                                   },
                                   error => {
