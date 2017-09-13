@@ -45,6 +45,7 @@ export class ServiceListComponent implements OnInit {
     let status = this.userService.isLoggedIn();
     if ( status === true ) {
       console.log('Valid User.');
+      this.flash.show('User login expired, please sign in to add service.', { cssClass: 'alert-danger', timeout: 5000 });
     } else {
       console.log('Invalid User.');
     }
