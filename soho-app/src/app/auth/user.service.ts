@@ -62,6 +62,10 @@ export class UserService {
               this.user = user;
             }
 
+            logOut() {
+              localStorage.clear();
+            }
+
     getProfile() {
 
       let headers = new Headers();
@@ -96,7 +100,5 @@ export class UserService {
       }
     }
 
-    logOut(){
-      localStorage.clear();
-    }
+
 }
