@@ -66,6 +66,7 @@ export class ServiceFormComponent implements OnInit {
                                   ( serviceEditedRes ) => {
 
                                       console.log( serviceEditedRes.service );
+                                      this.service.image.path = serviceEditedRes.service.image.path;
                                       this.service = serviceEditedRes.service;
                                       console.log( this.service );
                                       console.log( 'Success: ' + serviceEditedRes.success + ', ' + serviceEditedRes.msg );
