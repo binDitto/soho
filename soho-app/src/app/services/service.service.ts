@@ -94,7 +94,7 @@ export class ServiceService {
     }
 
   // EDIT
-      sendEditSignal = new EventEmitter<Service>();
+      @Output() sendEditSignal = new EventEmitter<Service>();
 
       editService ( serviceToEdit: Service ) {
         this.sendEditSignal.emit( serviceToEdit );

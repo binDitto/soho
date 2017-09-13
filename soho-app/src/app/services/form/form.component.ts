@@ -15,7 +15,7 @@ declare const jQuery: any;
 export class ServiceFormComponent implements OnInit {
 
   @Input() service: Service;
-  image: any;
+  @Input() image: any;
   categories: Array<Object>;
 
 

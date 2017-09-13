@@ -99,7 +99,7 @@
                 serviceToEdit.price         =   req.body.price;
                 serviceToEdit.description   =   req.body.description;
                 serviceToEdit.category      =   req.body.category;
-                serviceToEdit.image         =   serviceToEdit.image ? serviceToEdit.image : req.file;
+                serviceToEdit.image         =   req.file;
 
                 serviceToEdit.save( ( err, updatedService ) => {
                     if ( err ) { return res.status( 500 ).json({ success: false, msg: 'Error: Cannot update/edit service', error: err }); }
