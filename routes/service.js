@@ -94,12 +94,16 @@
                 if ( serviceToEdit.user.toString() !== decodedToken.user._id.toString() ) { return res.status( 401 ).json({ success: false, msg: 'Not same User' }); }
 
                 let pathBeforeEdit = serviceToEdit.image ? serviceToEdit.image.path : '';
+                
 
                 serviceToEdit.name          =   req.body.name;
                 serviceToEdit.price         =   req.body.price;
                 serviceToEdit.description   =   req.body.description;
                 serviceToEdit.category      =   req.body.category;
+                if ( req.file ) {
                 serviceToEdit.image         =   req.file;
+                }
+                
 
                 serviceToEdit.save( ( err, updatedService ) => {
                     if ( err ) { return res.status( 500 ).json({ success: false, msg: 'Error: Cannot update/edit service', error: err }); }
