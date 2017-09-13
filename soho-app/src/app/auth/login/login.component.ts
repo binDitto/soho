@@ -43,6 +43,7 @@ export class UserLoginComponent implements OnInit {
           } else {
             console.log( data.msg );
             this.flash.show( data.msg, { cssClass: 'alert-danger', timeout: 5000 });
+            console.log( data.error );
             this.router.navigate(['/users/login']);
           }
         });

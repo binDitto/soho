@@ -23,8 +23,7 @@ export class UserService {
       const jsonBody = JSON.stringify(userToRegister);
 
       return this.http.post( this.backEnd + 'users', jsonBody, { headers: headers })
-                      .map( createdUserRes  => createdUserRes.json() )
-                      .catch( error => Observable.throw( error.json() ) );
+                      .map( createdUserRes  => createdUserRes.json() );
     }
 
     login( userToLogin ) {
@@ -34,12 +33,11 @@ export class UserService {
       const userbody = JSON.stringify(userToLogin);
 
       return this.http.post( this.backEnd + 'users/login', userToLogin, { headers: headers })
-                      .map( signedInUserRes  => signedInUserRes.json() )
-                      .catch( dataError => Observable.throw( dataError.json() ) );
+                      .map( signedInUserRes  => signedInUserRes.json() );
     }
 
             isLoggedIn() {
-              return localStorage.getItem('token') !== null && tokenNotExpired('token') !== false;
+              return localStorage.getItem('token') !== null && tokenNotExpired('token') !== true;
             }
 
             storeUserData( token, user ) {
@@ -87,8 +85,7 @@ export class UserService {
 
                             return this.loggedInUser;
                           }
-                        )
-                        .catch( dataError  => Observable.throw( dataError.json() ) );
+                        );
       }
     }
 

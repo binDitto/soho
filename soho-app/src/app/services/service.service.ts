@@ -49,8 +49,7 @@ export class ServiceService {
                           console.log(this.services.length + ' Services fetched!');
                           return transformedServices;
                         }
-                      )
-                      .catch( error => Observable.throw(error.json()) );
+                      );
     }
 
   // CREATE
@@ -61,6 +60,7 @@ export class ServiceService {
       return this.http.post(this.backEnd + 'services' + this.queryToVerify, serviceToAdd, { headers: headers})
                       .map(
                         ( createdServiceRes: Response ) => {
+
                           const newServiceData = createdServiceRes.json();
 
                           const newService = new Service(
@@ -78,8 +78,7 @@ export class ServiceService {
                           this.services.unshift( newService );
                           return newService;
                         }
-                      )
-                      .catch( error => Observable.throw(error.json()) );
+                      );
     }
 
   // EDIT
@@ -95,8 +94,7 @@ export class ServiceService {
           headers.append('enctype', 'multipart/form-data');
 
       return this.http.patch( this.backEnd + 'services/' + serviceId + this.queryToVerify, serviceToUpdate, { headers: headers })
-                      .map( updatedServiceRes => updatedServiceRes.json() )
-                      .catch( error => Observable.throw(error.json()) );
+                      .map( updatedServiceRes => updatedServiceRes.json() );
     }
 
   // DELETE
@@ -113,9 +111,6 @@ export class ServiceService {
                           console.log(this.services.length + ' service(s) left in the database!');
                           return deletedData;
                         }
-                      )
-                      .catch(
-                        ( error: Response ) => Observable.throw(error.json())
                       );
     }
 }

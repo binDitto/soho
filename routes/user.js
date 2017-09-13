@@ -28,9 +28,9 @@
 
         User.addUser( newUser, ( err, createdUser ) => {
             if ( err ) { 
-                return res.status( 500 ).json({ success: false, msg: 'Failed to register user.'});
+                return res.status( 500 ).json({ success: false, msg: 'Failed to register user.', error: err });
             } else {
-                res.status(201).json({ success: true, msg: 'User registered', user: createdUser, error: err });
+                res.status(201).json({ success: true, msg: 'User registered', user: createdUser });
             }
         });
     });
@@ -41,7 +41,7 @@
         User.findOne( { email: req.body.email }, ( err, foundUser ) => {
             
             if ( err ) { 
-                return res.status( 500 ).json({ success: false, msg: 'Error logging in User, N/A' });
+                return res.status( 500 ).json({ success: false, msg: 'Error logging in User, N/A', error: err });
             }
             
             if ( !foundUser ) {
@@ -76,7 +76,7 @@
     router.get('/:id', ( req, res, next ) => {
         User.findById( req.params.id, ( err, foundUser ) => {
             if ( err ) {
-                return res.status( 500 ).json({ success: false, msg: 'Cannot retreive User profile' });
+                return res.status( 500 ).json({ success: false, msg: 'Cannot retreive User profile', error: err });
             } else {
                 res.status( 200 ).json({ success: true, msg: 'User profile retrieved.', user: foundUser });
             }

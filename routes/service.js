@@ -16,7 +16,7 @@
             Service.find().sort({ createdAt: -1 }).populate('user').exec(
                 ( err, foundServices ) => {
                     if ( err ) {
-                        return res.status( 500 ).json({ success: false, msg: 'An error occurred fetching services.' });
+                        return res.status( 500 ).json({ success: false, msg: 'An error occurred fetching services.', error: err });
                     } else {
                         res.status( 200 ).json({ success: true, msg: 'Success! Services fetched!', services: foundServices });
                     }
@@ -29,7 +29,7 @@
         router.use( '/', ( req, res, next ) => {
             jwt.verify( req.query.token, config.secret, ( err, verifiedToken ) => {
                 if ( err ) {
-                    return res.status( 401 ).json({ success: false, msg: 'Authentication failed!' });
+                    return res.status( 401 ).json({ success: false, msg: 'Authentication failed!', error: err });
                 }
 
                 next();
@@ -57,7 +57,7 @@
             let decodedToken = jwt.decode( req.query.token );
             User.findById( decodedToken.user._id.toString(), ( err, loggedInUser ) => {
                 if ( err ) { 
-                    return res.status( 500 ).json({ success: false, msg: 'Error locating service user info.'});
+                    return res.status( 500 ).json({ success: false, msg: 'Error locating service user info.', error: err });
                 }
 
                 let service = new Service({
@@ -71,7 +71,7 @@
 
                 service.save( ( err, savedService ) => {
                     if ( err ) {
-                        return res.status( 500 ).json({ success: false, msg: 'Error saving service to db.' });
+                        return res.status( 500 ).json({ success: false, msg: 'Error saving service to db.', error: err });
                     } else {
                         loggedInUser.services.push( savedService );
                         loggedInUser.save();
@@ -89,7 +89,7 @@
             let serviceId = req.params.id;
 
             Service.findById( serviceId, ( err, serviceToEdit) => {
-                if ( err ) { return res.status( 500 ).json({ success: false, msg: 'Error retrieving service to edit' }); }
+                if ( err ) { return res.status( 500 ).json({ success: false, msg: 'Error retrieving service to edit', error: err }); }
                 if ( !serviceToEdit ) { return res.status( 500 ).json({ success: false, msg: 'Error, service not found' }); } 
                 if ( serviceToEdit.user.toString() !== decodedToken.user._id.toString() ) { return res.status( 401 ).json({ success: false, msg: 'Not same User' }); }
 
@@ -138,7 +138,7 @@
 
             Service.findById( serviceId, ( err, serviceToDelete ) => {
 
-                if ( err ) { return res.status( 500 ).json({ success: false, msg: 'An error occurred retrieving service for deletion' }); }
+                if ( err ) { return res.status( 500 ).json({ success: false, msg: 'An error occurred retrieving service for deletion', error: err }); }
                 if ( !serviceToDelete ) { return res.status( 500 ).json({ success: false, msg: 'Error, no service found to delete' }); }
                 if ( serviceToDelete.user.toString() !== decodedToken.user._id.toString() ) {
                     return res.status( 401 ).json({ success: false, msg: 'Not same User.'});
@@ -146,7 +146,7 @@
 
                 serviceToDelete.remove(( err, deletedService ) => {
                     if ( err ) { 
-                        return res.status( 500 ).json({ success: false, msg: 'Could not delete service.' }); 
+                        return res.status( 500 ).json({ success: false, msg: 'Could not delete service.', error: err }); 
                     } else {
                         fs.stat(serviceToDelete.image.path, (err, stats) => {
                             console.log(stats);

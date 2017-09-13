@@ -50,7 +50,7 @@ export class UserRegisterComponent implements OnInit {
                             console.log('Success: ' + createdUserRes.success + ', ' + createdUserRes.msg );
                             console.log( createdUserRes.user);
                           } else {
-                            console.log('Success: ' + createdUserRes.success + ', ' + createdUserRes.error);
+                            console.log('Success: ' + createdUserRes.success + ', ' + createdUserRes.msg + ', ' + createdUserRes.error);
                           }
                         }
                       );

@@ -72,7 +72,7 @@ export class ServiceFormComponent implements OnInit {
 
 
                                     } else {
-                                      console.log('Success: ' + serviceEditedRes.success + ', ' + serviceEditedRes.error);
+                                      console.log('Success: ' + serviceEditedRes.success + ', ' + serviceEditedRes.msg + ', ' + serviceEditedRes.error);
                                     }
                                   }
                               );
@@ -96,7 +96,8 @@ export class ServiceFormComponent implements OnInit {
 
             this.serviceService.addService( serviceData )
                                 .subscribe(
-                                  (createdServiceRes) => {console.log( createdServiceRes);
+                                  (createdServiceRes) => {
+                                    console.log( createdServiceRes);
                                   }
                                 );
 
