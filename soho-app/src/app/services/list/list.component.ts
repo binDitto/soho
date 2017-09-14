@@ -7,7 +7,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 @Component({
   selector: 'service-list',
   template: `
-    <service-form *ngIf="isAdmin() && isValidUser()"></service-form>
+    <service-form *ngIf="isAdmin() && isLoggedIn()"></service-form>
     <service *ngFor="let service of services" [service]="service">Loading Services...</service>
   `,
   styleUrls: ['./list.component.css']
@@ -41,6 +41,8 @@ export class ServiceListComponent implements OnInit {
                                                    } );
     }
   }
+
+
   isValidUser(){
     let status = this.userService.isLoggedIn();
     if ( status === true ) {
@@ -52,6 +54,9 @@ export class ServiceListComponent implements OnInit {
     }
 
     return status;
+  }
+  isLoggedIn(){
+    return this.userService.isLoggedIn();
   }
   isAdmin() {
     if (this.currentUser) {

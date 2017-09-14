@@ -44,7 +44,7 @@ export class UserService {
 
             isLoggedIn() {
               // console.log(tokenNotExpired());
-              return tokenNotExpired();
+              return localStorage.getItem('token') !== null;
             }
 
             storeUserData( token, user ) {
