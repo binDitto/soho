@@ -23,7 +23,7 @@ export class ServiceService {
   ) {}
   // GET
     getServices(){
-      return this.http.get(this.backEnd + 'services' + this.queryToVerify)
+      return this.http.get(this.backEnd + 'services')
                       .map(
                         ( foundServices ) => {
                           console.log( 'Success: ' + foundServices.json().success + ', ' + foundServices.json().msg );
