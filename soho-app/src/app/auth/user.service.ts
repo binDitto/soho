@@ -44,7 +44,7 @@ export class UserService {
 
             isLoggedIn() {
               // console.log(tokenNotExpired());
-              return tokenNotExpired('token');
+              return tokenNotExpired();
             }
 
             storeUserData( token, user ) {
