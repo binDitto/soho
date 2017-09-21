@@ -22,59 +22,62 @@
   <div class="row pricelist">
     <div class="col-xs-12 ">
 
+      <div >
+        <div class="col-md-4 col-xs-12" >
+          <h1>Manicures</h1>
+          <div class="perservice" *ngFor="let service of services">
 
-        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Manicure'">
-          <div class="perservice">
-            <h1>Manicures</h1>
-            <div *ngFor="let service of services">
-                <service [service]="service.category === 'Manicure'? service : null">Loading Services...</service>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Pedicure'">
-          <div class="perservice">
-            <h1>Pedicures</h1>
-              <div *ngFor="let service of services">
-                <service [service]="service.category === 'Pedicure'? service : null">Loading Services...</service>
-              </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Add-on'">
-          <div class="perservice">
-            <h1>Add-ons</h1>
-            <div *ngFor="let service of services">
-            <service [service]="service.category === 'Add-on'? service : null">Loading Services...</service>
+            <service  *ngIf="service.category === 'Manicure'" [service]="service.category === 'Manicure'? service : null">Loading Services...</service>
           </div>
         </div>
       </div>
 
-        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Artificial Nails'">
-          <div class="perservice">
-            <h1>Artificial Nails</h1>
-            <div *ngFor="let service of services">
-            <service [service]="service.category === 'Artificial Nails'? service : null">Loading Services...</service>
+      <div >
+        <div class="col-md-4 col-xs-12" >
+          <h1>Pedicures</h1>
+          <div class="perservice" *ngFor="let service of services">
+
+            <service *ngIf="service.category === 'Pedicure'" [service]="service.category === 'Pedicure'? service : null">Loading Services...</service>
           </div>
         </div>
       </div>
 
-        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Waxing'">
-          <div class="perservice">
-            <h1>Waxing</h1>
-            <div *ngFor="let service of services">
-            <service [service]="service.category === 'Waxing'? service : null">Loading Services...</service>
+      <div >
+        <div class="col-md-4 col-xs-12" >
+          <h1>Add-ons</h1>
+          <div class="perservice" *ngFor="let service of services">
+
+            <service  *ngIf="service.category === 'Add-on'" [service]="service.category === 'Add-on'? service : null">Loading Services...</service>
           </div>
         </div>
       </div>
 
-        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Other Service'">
-          <div class="perservice">
-            <h1>Other Services</h1>
-            <div *ngFor="let service of services">
-            <service [service]="service.category === 'Other Service'? service : null">Loading Services...</service>
+      <div >
+        <div class="col-md-4 col-xs-12" >
+          <h1>Artificial Nails</h1>
+          <div class="perservice" *ngFor="let service of services">
+
+            <service *ngIf="service.category === 'Artificial Nails'" [service]="service.category === 'Artificial Nails'? service : null">Loading Services...</service>
+          </div>
+        </div>
+      </div>
+
+      <div >
+        <div class="col-md-4 col-xs-12" >
+          <h1>Waxing</h1>
+          <div class="perservice" *ngFor="let service of services">
+
+            <service *ngIf="service.category === 'Waxing'" [service]="service.category === 'Waxing'? service : null">Loading Services...</service>
+          </div>
+        </div>
+      </div>
+
+      <div >
+        <div class="col-md-4 col-xs-12" >
+          <h1>Other Services</h1>
+          <div class="perservice" *ngFor="let service of services">
+
+            <service *ngIf="service.category === 'Manicure'" [service]="service.category === 'Other Service'? service : null">Loading Services...</service>
           </div>
         </div>
       </div>
