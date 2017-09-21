@@ -1,0 +1,127 @@
+.bg {
+  color: white;
+  background: none;
+  text-shadow: 0px 2px 5px rgba(0, 0, 0, .4);
+}
+
+.landing {
+  background-image: url("/assets/images/site/mainimage.jpg");
+  background-color: rgba(0, 0, 0, 0.4);
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position: 30% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+  max-height: 300px;
+  width: 100%;
+}
+
+.jumbotron {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  max-height: 300px;
+  font-family: 'Merriweather Sans', sans-serif;
+}
+
+.jumbotron h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 59px;
+  color: rgba(238, 145, 187, 0.9);
+}
+
+.jumbotron p {
+  font-family: 'Lato', sans-serif;
+  margin: 10px auto;
+  font-size: 20px;
+  max-width: 400px;
+}
+
+.navline {
+  margin: 40px auto 0px auto;
+  border-bottom: .5px solid white;
+  width: 100%;
+  max-width: 135px
+}
+
+.social {
+  margin-top: 20px;
+}
+
+.social a {
+  color: rgba(255, 255, 255, 1);
+  margin: 10px 5px;
+  transition: color .35s;
+  /* transition-delay: .5s; */
+}
+
+.social a i.fa {
+  padding: 10px;
+  border: 3px solid rgba(255, 255, 255, 0);
+}
+
+.social a.fb:hover {
+  color: rgba(64, 101, 180, 1);
+}
+
+.social a.yelp:hover {
+  color: rgba(213, 32, 24, 1);
+}
+
+.social a:hover i.fa {
+  border: 3px solid white;
+  border-radius: 10px;
+}
+
+/* PRICE LIST */
+.prices {
+  background-color: rgba(230, 230, 230, 1);
+
+}
+.pricelist {
+  /* box-shadow: 1px 1px 5px -1px darkgray; */
+  /* background-color: rgba(221, 130, 170, 0.5); */
+  /* border: 1px solid black; */
+  display: block;
+  margin: 40px auto;
+  max-width: 1100px;
+}
+.pricelist .perservice h1{
+  text-shadow: 1px 1px 5px -1px #040404;
+  padding: 5px 10px 5px 20px;
+  background-color: #2F2F2F;
+  color: rgba(0, 171, 151, 1);
+  font-family: 'Playfair', serif;
+  border-left: 5px solid rgba(0, 171, 151, 1);
+
+}
+
+/* .navline {
+  margin: 10px 30px;
+  border-bottom: 1px solid rgba(255,255,255, 0.7);
+} */
+
+
+
+@media only screen and (max-width: 768px) {
+  .landing {
+    height: 100vh;
+    max-height: 500px;
+  }
+  .jumbotron {
+    height: 100vh;
+    max-height: 500px;
+  }
+  .jumbotron h1 {
+    font-size: 55px;
+  }
+  .jumbotron p {
+    max-width: 300px;
+  }
+  .bg-2 {
+    height: auto;
+  }
+}
+

@@ -25,7 +25,9 @@ export class ServiceFormComponent implements OnInit {
       { value: 'Manicure' },
       { value: 'Pedicure' },
       { value: 'Artificial Nails' },
-      { value: 'Waxing' }
+      { value: 'Waxing' },
+      { value: 'Other Services'},
+      { value: 'Add-on'}
     ];
 
 
@@ -70,12 +72,12 @@ export class ServiceFormComponent implements OnInit {
                                       // this.service.image = serviceEditedRes.service.image;
                                       console.log( this.service );
                                       console.log( 'Success: ' + serviceEditedRes.success + ', ' + serviceEditedRes.msg );
-                                      
+
                                       this.flash.show(serviceEditedRes.msg, { cssClass: 'alert-success', timeout: 5000 });
                                       this.router.navigateByUrl('/services');
 
                                       window.location.reload();
-                                      
+
 
                                   },
                                   error => {
@@ -105,6 +107,7 @@ export class ServiceFormComponent implements OnInit {
                                     console.log(createdServiceRes.service);
                                     console.log('Success: ' + createdServiceRes.data.success + ', ' + createdServiceRes.data.msg);
                                     this.flash.show(createdServiceRes.data.msg, { cssClass: 'alert-success', timeout: 5000 });
+                                    window.location.reload();
                                   },
                                   error => {
                                     this.flash.show( error.msg, { cssClass: 'alert-danger', timeout: 5000 });

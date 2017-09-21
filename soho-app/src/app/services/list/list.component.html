@@ -1,0 +1,79 @@
+<service-form *ngIf="isAdmin() && isLoggedIn()"></service-form>
+<div class="container-fluid landing">
+  <div class="jumbotron text-center bg">
+    <h1>Services</h1>
+    <p class="lead">
+      We provide a great selection of services for you to choose from.
+    </p>
+
+    <!-- Button trigger modal -->
+    <div class="container" align="center" *ngIf="isAdmin() && isLoggedIn()">
+      <div class="row">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
+          Add Service
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid prices">
+  <div class="row pricelist">
+    <div class="col-xs-12 ">
+
+      <div *ngFor="let service of services">
+        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Manicure'">
+          <div class="perservice">
+            <h1>Manicures</h1>
+            <service [service]="service.category === 'Manicure'? service : null">Loading Services...</service>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let service of services">
+        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Pedicure'">
+          <div class="perservice">
+            <h1>Pedicures</h1>
+            <service [service]="service.category === 'Pedicure'? service : null">Loading Services...</service>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let service of services">
+        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Add-on'">
+          <div class="perservice">
+            <h1>Add-ons</h1>
+            <service [service]="service.category === 'Add-on'? service : null">Loading Services...</service>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let service of services">
+        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Artificial Nails'">
+          <div class="perservice">
+            <h1>Artificial Nails</h1>
+            <service [service]="service.category === 'Artificial Nails'? service : null">Loading Services...</service>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let service of services">
+        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Waxing'">
+          <div class="perservice">
+            <h1>Waxing</h1>
+            <service [service]="service.category === 'Waxing'? service : null">Loading Services...</service>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let service of services">
+        <div class="col-md-4 col-xs-12" *ngIf="service.category === 'Other Service'">
+          <div class="perservice">
+            <h1>Other Services</h1>
+            <service [service]="service.category === 'Other Service'? service : null">Loading Services...</service>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+

@@ -39,7 +39,8 @@ export class UserService {
       const userbody = JSON.stringify(userToLogin);
 
       return this.http.post( this.backEnd + 'users/login', userToLogin, { headers: headers })
-                      .map( signedInUserRes  => signedInUserRes.json() );
+                      .map( signedInUserRes  => signedInUserRes.json() )
+                      .catch( error => { return Observable.throw(error.json())});
     }
 
             isLoggedIn() {
@@ -49,7 +50,7 @@ export class UserService {
 
             storeUserData( token, user ) {
               localStorage.setItem('token', token);
-              localStorage.setItem('user', JSON.stringify( user ));
+              // localStorage.setItem('user', JSON.stringify( user ));
               localStorage.setItem('userId', user.id);
               this.usertoken = token;
               this.user = user;

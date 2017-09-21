@@ -1,0 +1,83 @@
+.col-md-4 {
+  margin: 0px;
+  padding: 0px;
+  border-bottom: 8px solid black;
+}
+
+.outerbox {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 250px;
+  border: 1px solid black;
+  /* border-radius: 8px; */
+}
+
+.outerbox img {
+  width: 120%;
+  height: 100%;
+}
+.outerbox .headerbox {
+  background-color: rgba(0,0,0,0.5);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: white;
+  padding: 20px;
+  transition: .5s
+}
+.outerbox .headerbox:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: .8s;
+}
+.outerbox .headerbox h4 {
+  top: -13px;
+  font-size: 15px;
+  margin: 0px;
+  position: relative;
+  transition: .8s;
+  font-family: 'Montserrat',
+  sans-serif;
+
+}
+.outerbox .headerbox:hover h4{
+  top: 17px;
+}
+.outerbox .headerbox h2 {
+  top: -30px;
+  position: relative;
+  transition: .8s;
+  padding: 0px 0px 10px 0px;
+  /* border-bottom: 0px solid white; */
+
+}
+.outerbox .headerbox:hover h2 {
+  top: 0px;
+  position: relative;
+  transition: .8s;
+  border-bottom: 1px solid white;
+}
+.outerbox .headerbox span {
+  float: right;
+  color: rgba(77, 255, 234, 0.9);
+
+}
+
+.outerbox .headerbox p {
+  top: -200px;
+  position: relative;
+  transition: .8s;
+
+
+}
+.outerbox .headerbox:hover p {
+  top: 0px;
+  position: relative;
+  transition: .8s;
+  font-family: 'Merriweather',
+  serif;
+
+
+}
+
+

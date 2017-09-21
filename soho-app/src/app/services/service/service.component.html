@@ -1,51 +1,23 @@
-<div class="col-md-4">
-  <article class="panel panel-default ">
-    <div class="panel-heading">
-      <h4>{{service?.name}}</h4>
-      <img *ngIf="service?.image" src="/assets/images/services/{{service?.image.filename}}" width="100%" height="100%">
-      <!-- <img src="./assets/images/services/{{service.image.filename}}" alt="Image for {{service.image.filename}}" width="100%"
-        height="100%"> -->
-    </div>
-    <div class="panel-body">
-      <ul class="list-group">
-        <li class="list-group-item">
-          Created on: <span class="label label-success">{{service?.createdAt | date:'yMMMd'}} {{service?.createdAt | date:'jm'}}</span>
-        </li>
-        <li class="list-group-item">
-          Id: <span class="label label-success">{{service?.id}}
-            </span>
-        </li>
-        <li class="list-group-item">
-          Name: <span class="label label-success">{{service?.name}}
-            </span>
-        </li>
-        <li class="list-group-item">
-          Price: <span class="label label-success">{{service?.price | currency:'USD':true:'1.0'}}</span>
-        </li>
-        <li class="list-group-item">
-          Description: <span class="label label-success">{{service?.description}}
-            </span>
-        </li>
-        <li class="list-group-item">
-          Created by: <span class="label label-success">{{service?.userName}}</span>
-        </li>
-
-        <li class="list-group-item">
-          User Id: <span class="label label-success">{{service?.userId}}</span>
-        </li>
 
 
-      </ul>
 
-      <div class="config" *ngIf="belongsToUser()">
-        <!-- Event Binding  -->
-        <a href="#" class="btn btn-sm btn-danger" (click)="onEdit()" type="button" data-toggle="modal" data-target="#myModal" data-backdrop="static"
-          data-keyboard="false">Edit</a>
-        <a href="#" class="btn btn-sm btn-danger" type="button" type="button" (click)="onDelete()">Delete</a>
-        <!-- End Event Binding  -->
-      </div>
+<div class="perserviceInfo" >
+  <div class="serviceDes" [ngStyle]="{ 'display': showDes }">
+    <i class="fa fa-times closebutton" (click)="hideDescription()"></i>
+    <h4>DESCRIPTION</h4>
+    <p>{{service?.description}}</p>
+  </div>
+
+  <div class="actions" *ngIf="service && belongsToUser()" [ngStyle]="{'display': display }">
+    <a href="#" class="btn btn-sm btn-danger" (click)="onEdit()" type="button" data-toggle="modal" data-target="#myModal" data-backdrop="static"
+      data-keyboard="false">Edit</a>
+    <a href="#" class="btn btn-sm btn-danger" type="button" type="button" (click)="onDelete()">Delete</a>
+  </div>
 
 
-    </div>
-  </article>
+  <h3 (click)="showDescription()">{{service?.name}} <span>{{service?.price}}</span></h3>
+
+  <i class="fa fa-ellipsis-v changebutton" (click)="changeDisplay()"></i>
+
+
 </div>

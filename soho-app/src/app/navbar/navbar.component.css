@@ -1,4 +1,150 @@
+.navbar-nav > li > a {margin-top:20px !important; margin-bottom:10px !important;}
+.navbar {min-height:32px !important}
+
 .navbar {
+  position: relative;
+  background: none;
+  margin: 0px auto;
   border-radius: 0px;
+  /* border-bottom: .05px solid white; */
+  margin-bottom: 0px;
+  max-width: 1100px;
+  background-color: rgba(0,26,23,0);
 }
+.navbar-default .navbar-nav>li>a:focus {
+  color: #DD0000;
+}
+
+li.active a{
+color: white;
+background-color: black;
+}
+li.active a:focus {
+  color: white;
+  background-color: black;
+}
+
+li a:focus {
+  color: none !important;
+  background-color: none !important;
+}
+
+
+
+.nav.navbar-nav li a {
+  padding: 7px 12px;
+  border-radius: 8px;
+   color: white;
+   letter-spacing: .05em;
+  font-weight: 200;
+   font-size: 12px;
+font-family: 'Roboto ',
+sans-serif;
+border: 3px solid rgba(255,255,255,.0);
+
+
+}
+
+.nav.navbar-nav li:hover a{
+  color: rgba(0, 171, 151, 1);
+  background: none;
+  border: 3px solid white;
+
+
+}
+.nav.navbar-nav.navbar-left li a {
+  padding: 5px;
+  border-radius: 8px;
+
+  letter-spacing: .05em;
+  color: white;
+  font-size: 12px;
+  font-weight: 200;
+  font-family: 'Roboto ',
+                          sans-serif;
+
+}
+
+.nav.navbar-nav.navbar-left li:hover a{
+  color: rgba(0, 171, 151, 1);
+
+
+
+}
+
+.logo {
+  width: auto;
+  height: 50px;
+  padding-left: 20px;
+}
+ .collapse {
+   transition: .5s;
+ }
+
+ .collaps.nav li:hover a {
+   transition: .5s;
+
+ }
+
+
+
+@media only screen and (max-width: 768px) {
+  .collapse {
+    background-color: rgba(0,0,0,1);
+    text-align: center;
+  }
+
+  .collaps.nav li:hover a {
+    margin: 50px;
+  }
+
+  .navbar-nav>li>a {
+    margin-top: 30px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .icon-bar {
+    background: white !important;
+    /*Whatever colour you want for icon lines*/
+  }
+
+  .navbar-toggle {
+    margin-top: 11px;
+    background: none !important;
+    border: 3px solid rgba(255,255,255,0);
+
+    /*Whatever colour you want for background */
+
+  }
+
+  .navbar-toggle:hover {
+    border-radius: 8px !important;
+    border: 3px solid white;
+    /*Whatever colour you want for background */
+  }
+
+  .navbar-default .navbar-collapse,
+  .navbar-default .navbar-form {
+    border-color: darkblue;
+    /* Whatever Colour you want */
+  }
+
+
+
+  .nav.navbar-nav.navbar-right {
+    color: white;
+    background-color: black;
+  }
+
+  .logo {
+    width: auto;
+    height: 30px;
+    padding-left: 20px;
+  }
+
+
+}
+
+
+
 

@@ -6,15 +6,17 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'service-list',
-  template: `
-    <service-form *ngIf="isAdmin() && isLoggedIn()"></service-form>
-    <service *ngFor="let service of services" [service]="service">Loading Services...</service>
-  `,
+  templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
 export class ServiceListComponent implements OnInit {
 
-  @Input() services: Service[];
+  @Input() services: Service[]= [];
+
+  @Input() pedicures: Service[]= [];
+  @Input() manicures: Service[]= [];
+  @Input() artificial: Service[]= [];
+  @Input() waxing: Service[]= [];
 
   admin: Boolean;
   currentUser;
@@ -34,11 +36,29 @@ export class ServiceListComponent implements OnInit {
     }
 
     if ( this.serviceService.services ) {
-      this.serviceService.getServices().subscribe( services => this.services = services,
-                                                   error => {
-                                                     this.flash.show( error.msg, { cssClass: 'alert-danger', timeout: 5000} );
+      this.serviceService.getServices().subscribe( (services: Service[]) => {
+          console.log(services.length);
+          console.log(services);
+          console.log(services[0]);
+        // this.services = services
+        for ( let i = 0; i < services.length; i++ ){
+          this.services.push(services[i]);
+          if ( services[i].category === 'Pedicure'){
+            this.pedicures.push(services[i]);
+          } else if ( services[i].category === 'Manicure') {
+            this.manicures.push(services[i]);
+          } else if ( services[i].category === 'Artificial Nails') {
+            this.artificial.push(services[i]);
+          } else if ( services[i].category === 'Waxing') {
+            this.waxing.push(services[i]);
+          }
+        }
+        console.log(this.services);
+      },
+      error => {
+        this.flash.show( error.msg, { cssClass: 'alert-danger', timeout: 5000} );
 
-                                                   } );
+      } );
     }
   }
 

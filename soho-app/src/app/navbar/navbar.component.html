@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse">
+<nav class="navbar">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -9,14 +9,17 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">SOHO Nails & Spa</a>
+      <a class="navbar-brand" href="#"> <img class="logo" src="assets/images/site/sohologo.png" /> </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li ><a [routerLink]="['/']">Home</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['/services']">Services</a></li>
+        <!-- <li ><a [routerLink]="['/']">HOME</a></li> -->
+        <li routerLinkActive="active"><a [routerLink]="['/services']">SERVICES</a></li>
+        <!-- <li ><a [routerLink]="['/services']">PORTFOLIO</a></li>
+        <li ><a [routerLink]="['/services']">ABOUT US</a></li>
+        <li ><a [routerLink]="['/services']">CONTACT US</a></li> -->
 
         <!-- <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -50,11 +53,11 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li routerLinkActive="active" *ngIf="!isLoggedIn()"><a [routerLink]="['/users/register']">Register</a></li>
-            <li routerLinkActive="active" *ngIf="!isLoggedIn()"><a [routerLink]="['/users/login']">Log In</a></li>
-            <li *ngIf="isLoggedIn()"><a [routerLink]="['/users/profile']">Profile</a></li>
+            <li routerLinkActive="active" *ngIf="!isLoggedIn()"><a [routerLink]="['/users/register']">REGISTER</a></li>
+            <li routerLinkActive="active" *ngIf="!isLoggedIn()"><a [routerLink]="['/users/login']">LOG IN</a></li>
+            <li *ngIf="isLoggedIn()"><a [routerLink]="['/users/profile']">PROFILE</a></li>
             <li role="separator" class="divider" *ngIf="isLoggedIn()"></li>
-            <li *ngIf="isLoggedIn()"><a (click)="logOutUser()">Logout</a></li>
+            <li *ngIf="isLoggedIn()"><a (click)="logOutUser()">LOGOUT</a></li>
           </ul>
         </li>
 

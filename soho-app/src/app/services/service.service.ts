@@ -15,7 +15,7 @@ export class ServiceService {
   backEnd = environment.backEndUrl;
 
   services: Service[] = [];
-  queryToVerify = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+
 
 
   constructor (
@@ -61,8 +61,8 @@ export class ServiceService {
     addService( serviceToAdd: FormData ) {
       let headers = new Headers();
           headers.append('enctype', 'multipart/form-data');
-
-      return this.http.post(this.backEnd + 'services' + this.queryToVerify, serviceToAdd, { headers: headers})
+      const queryToVerify = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+      return this.http.post(this.backEnd + 'services' + queryToVerify, serviceToAdd, { headers: headers})
                       .map(
                         ( createdServiceRes: Response ) => {
 
@@ -104,8 +104,9 @@ export class ServiceService {
     updateService ( serviceToUpdate: FormData, serviceId: String ) {
       let headers = new Headers();
           headers.append('enctype', 'multipart/form-data');
+      const queryToVerify = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
 
-      return this.http.patch( this.backEnd + 'services/' + serviceId + this.queryToVerify, serviceToUpdate, { headers: headers })
+      return this.http.patch( this.backEnd + 'services/' + serviceId + queryToVerify, serviceToUpdate, { headers: headers })
         .map(updatedServiceRes => updatedServiceRes.json()).catch(
           error => {
           let jsonerr = error.json();

@@ -1,23 +1,19 @@
-<soho-navbar></soho-navbar>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-<flash-messages></flash-messages>
-    </div>
-  </div>
+<div class="header">
+  <soho-navbar></soho-navbar>
 </div>
 
+<router-outlet>
+  <user-nav></user-nav>
+  <service-nav></service-nav>
+</router-outlet>
 
+<div class="col-md-10 col-md-offset-1">
+  <flash-messages></flash-messages>
+</div>
+
+<footer></footer>
 <div style="text-align:center">
-  
   <h1>
     {{environment}}
   </h1>
 </div>
-
-<router-outlet>
-  <user-nav>UserNav</user-nav>
-  <service-nav>ServiceNav</service-nav>
-</router-outlet>
-

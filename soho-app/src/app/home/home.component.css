@@ -1,0 +1,423 @@
+.bg {
+  color: white;
+  background: none;
+  text-shadow: 0px 2px 5px rgba(0, 0, 0, .4);
+}
+
+
+
+.landing {
+  background-image: url("/assets/images/site/spa.jpg");
+  background-color: rgba(0,
+  0,
+  0,
+  0.6);
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position: 30% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+  max-height: 700px;
+  width: 100%;
+
+}
+
+.jumbotron{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  max-height: 700px;
+  font-family: 'Merriweather Sans',
+ sans-serif;
+}
+
+.jumbotron h1{
+  font-family: 'Permanent Marker',
+  cursive;
+  font-size: 79px;
+  color: rgba(77, 255, 234, 0.9);
+
+
+}
+
+.jumbotron p{
+
+  font-family: 'Lato',
+  sans-serif;
+  margin: 10px auto;
+  max-width: 400px;
+
+}
+
+.navline{
+  margin: 40px auto 0px auto;
+  border-bottom: .5px solid white;
+  width: 100%;
+  max-width: 135px
+}
+.social {
+  margin-top: 20px;
+}
+.social a {
+  color: rgba(255, 255, 255, 1);
+  margin: 10px 5px;
+  transition: color .35s;
+  /* transition-delay: .5s; */
+}
+.social a i.fa{
+ padding: 10px;
+ border: 3px solid rgba(255, 255, 255, 0);
+
+}
+
+.social a.fb:hover {
+  color: rgba(64, 101, 180, 1);
+}
+.social a.yelp:hover {
+  color: rgba(213, 32, 24, 1);
+}
+.social a:hover i.fa{
+  border: 3px solid white;
+  border-radius: 10px;
+}
+
+
+/* WE DO */
+.bg-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color: darkgray;
+  background-color: black;
+  height: 400px;
+  /* border-bottom: 5px solid rgba(77, 255, 234, 0.9); */
+}
+
+.provide {
+  /* border: 1px solid green; */
+  width: 40%;
+  margin: auto;
+  font-size: 40px;
+  font-family: 'Playfair Display',
+  serif;
+  text-align: center;
+  border-bottom: 1px solid rgba(77, 255, 234, 0.9);
+  padding-bottom: 20px;
+  color: rgba(77, 255, 234, 0.9);
+}
+
+.ht h3 {
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+}
+
+.bg-2>.row {
+  margin: 0px auto;
+  max-width: 1100px;
+}
+
+.ht {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* resize: vertical; */
+  overflow: auto;
+  padding: 15px;
+}
+
+.ht .line {
+  border: 2px dotted rgba(77, 255, 234, 0.9);
+  border-radius: 20px;
+  width: 50px;
+  margin: auto;
+}
+
+.ht p {
+  font-family: 'Merriweather', serif;
+  color: white;
+  margin: 0;
+  padding: 10px;
+  padding-top: 20px;
+}
+
+
+/* PHONE CALL INFO DIV */
+.bg-3 {
+  /* background-image: url('/assets/images/site/may.jpg'); */
+
+  background-color: rgba(230, 230, 230, 1);
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position: 30% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+
+}
+
+.bg-3 .row {
+  margin: auto;
+}
+
+.phoneicon {
+  margin-top: 35px;
+   display: flex;
+   flex-direction: column;
+   justify-content: right;
+    text-align: right;
+   color: rgba(24, 154, 139, .5);
+   font-size: 20px;
+   text-shadow: 1px 1px 5px -1px darkgray;
+
+  /* border: 1px solid green; */
+}
+.phoneicon .pnumber1 {
+  display: block;
+  color: rgba(24, 154, 139, .5);
+  transition: .5s;
+  margin-bottom: 0px;
+
+}
+.phoneicon .pnumber1 i{
+  font-size: 80px;
+
+}
+.phoneicon .pnumber1:hover {
+  text-decoration: none;
+}
+.phoneicon h2 {
+  margin: 0px;
+  margin-top: 10px;
+}
+.phoneicon h2 .pnumber {
+  border: 5px solid rgba(24, 154, 139, 0);
+  border-radius: 8px;
+  color: rgba(24, 154, 139, .5);
+  width: 100%;
+  padding: 5px;
+  transition: .5s;
+}
+
+.phoneicon h2 .pnumber:hover {
+  padding: 5px;
+  font-size: 35px;
+  text-decoration: none;
+}
+
+
+.phoneinfo {
+  border-left: 3px solid lightgray;
+  /* border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px; */
+  padding: 0px 40px;
+  /* border: 1px solid green; */
+  text-shadow: 1px 1px 5px -1px darkgray;
+  text-align: left;
+  font-family: 'Roboto Condensed',
+  sans-serif;
+
+}
+.phoneinfo .box {
+  display: block;
+  margin: 30px auto;
+}
+
+
+.phoneinfo .box h2{
+  color: rgba(24, 154, 139, .5);
+  font-family: 'Playfair Display',
+  serif;
+  font-size: 40px;
+  width: 350px;
+
+}
+
+
+.phoneinfo .box h3{
+  color: #104a54;
+}
+
+/* SELECT BACKGROUND */
+
+.bg-4 {
+  background-color: black;
+}
+.bg-4 .row{
+  margin: auto;
+  padding: 0px;
+  max-width: 1400px;
+}
+
+/* .navline {
+  margin: 10px 30px;
+  border-bottom: 1px solid rgba(255,255,255, 0.7);
+} */
+
+@media only screen and (max-width: 992px) {
+  .landing {
+    height: 100vh;
+    max-height: 700px;
+  }
+  .jumbotron {
+    height: 100vh;
+    max-height: 600px;
+  }
+  .jumbotron h1 {
+    font-size: 60px;
+  }
+
+  .jumbotron p {
+    max-width: 300px;
+  }
+
+  .bg-2 {
+    height: auto;
+  }
+
+  .bg-2>.row {
+    min-width: 300px;
+  }
+/* WE DO */
+
+.bg-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color: darkgray;
+  background-color: black;
+  height: 800px;
+  /* border-bottom: 5px solid rgba(77, 255, 234, 0.9); */
+}
+
+.provide {
+  /* border: 1px solid green; */
+  width: 100%;
+  font-size: 40px;
+  font-family: 'Merriweather', serif;
+  padding: 0px;
+  color: rgba(77, 255, 234, 0.9);
+  padding-bottom: 20px;
+
+}
+
+.ht h3 {
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+}
+
+.bg-2>.row {
+  text-align: center;
+  margin: 0px auto;
+  max-width: 400px;
+}
+
+.ht {
+  padding: 15px;
+}
+
+.ht .line {
+  border: 2px dotted rgba(77, 255, 234, 0.9);
+  border-radius: 20px;
+  width: 50px;
+  margin: auto;
+}
+
+.ht p {
+  font-family: 'Merriweather', serif;
+  color: white;
+  margin: 0;
+  padding: 10px;
+  padding-top: 20px;
+}
+
+
+  .phoneicon {
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+    width: 100%;
+  }
+
+  .phoneinfo {
+    border-top: 3px solid lightgray;
+    border-left: 0px solid lightgray;
+    /* border-top-left-radius: 8px;
+    border-top-right-radius: 8px; */
+    padding: 0px 0px;
+    /* border: 1px solid green; */
+    text-shadow: 1px 1px 5px -1px darkgray;
+    text-align: center;
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+
+
+.phoneinfo .box h2 {
+  color: rgba(24, 154, 139, .5);
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  width: 100%;
+  margin: auto;
+}
+
+
+
+  .bg-3 {
+    height: auto;
+  }
+
+  .bg-3 .row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background:none;
+    border: none;
+    /* Standard syntax */
+    box-shadow: none;
+    width: 70%;
+    min-width: 300px;
+    margin:  40px auto;
+  }
+
+
+}
+
+@media only screen and (max-width: 768px) {
+  .landing {
+    height: 100vh;
+    max-height: 600px;
+    margin: auto;
+  }
+  .jumbotron{
+    height: 100vh;
+    max-height: 600px;
+  }
+  .jumbotron h1{
+    font-size: 55px;
+  }
+  .jumbotron p{
+    max-width: 300px;
+  }
+  .bg-2{
+    height: 700px;
+  }
+  .bg-2>.row{
+    min-width: 300px;
+  }
+
+
+
+
+
+}
+

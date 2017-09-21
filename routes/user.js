@@ -38,7 +38,7 @@
 
 // LOG IN USER
     router.post( '/login', ( req, res, next ) => {
-        User.findOne( { email: req.body.email }, ( err, foundUser ) => {
+        User.findOne( { userName: req.body.userName }, ( err, foundUser ) => {
             
             if ( err ) { 
                 return res.status( 500 ).json({ success: false, msg: 'Error logging in User, N/A', error: err });

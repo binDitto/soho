@@ -41,8 +41,8 @@
 
         const storage = multer.diskStorage({
             destination: ( req, file, cb ) => { 
-                cb( null, 'public/assets/images/services' ) 
-                // cb( null, 'soho-app/src/assets/images/services' ) 
+                // cb( null, 'public/assets/images/services' ) 
+                cb( null, 'soho-app/src/assets/images/services' ) 
             },
             filename: (req, file, cb) => { 
                 cb( null, file.fieldname + '-' + Date.now() + '.jpg' ) 
@@ -144,28 +144,32 @@
 
                 if ( err ) { return res.status( 500 ).json({ success: false, msg: 'An error occurred retrieving service for deletion', error: err }); }
                 if ( !serviceToDelete ) { return res.status( 500 ).json({ success: false, msg: 'Error, no service found to delete' }); }
-                if ( serviceToDelete.user.toString() !== decodedToken.user._id.toString() ) {
+                if ( serviceToDelete.user.toString() !== decodedToken.user._id ) {
+                    console.log(decodedToken);
+                    console.log(serviceToDelete.user);
                     return res.status( 401 ).json({ success: false, msg: 'Not same User.'});
                 }
 
                 serviceToDelete.remove(( err, deletedService ) => {
                     if ( err ) { 
                         return res.status( 500 ).json({ success: false, msg: 'Could not delete service.', error: err }); 
-                    } else {
-                        fs.stat(serviceToDelete.image.path, (err, stats) => {
+                    } 
+                    if ( deletedService.image ) {
+
+                        fs.stat(deletedService.image.path, (err, stats) => {
                             console.log(stats);
                             if (err) { return console.error(err); }
 
-                            fs.unlink(serviceToDelete.image.path, (err) => {
+                            fs.unlink(deletedService.image.path, (err) => {
                                 if (err) {
                                     console.log('Image removed from disk.');
                                     return console.error(err);
                                 }
                             });
-                        });
-
-                        res.status( 200 ).json({ success: true, msg: 'Service deleted from db', obj: deletedService });
+                        }); 
                     }
+
+                    res.status(200).json({ success: true, msg: 'Service deleted from db', obj: deletedService });
                 });
 
             });

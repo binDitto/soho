@@ -1,0 +1,17 @@
+<div class="col-md-4 col-xs-12" *ngFor="let service of services">
+  <div class="outerbox">
+
+    <div class="headerbox">
+      <h4>{{service.category | uppercase}}</h4>
+      <h2>{{service.name}} <span>{{service.price}}</span></h2>
+      <p>{{service.description}}</p>
+    </div>
+    <div class="bodybox">
+
+    </div>
+    <div *ngIf="service?.image">
+      <img src="/assets/images/services/{{service.image.filename}}"alt="">
+    </div>
+
+  </div>
+</div>

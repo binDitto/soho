@@ -1,3 +1,5 @@
+import { SohoSelectComponent } from './home/select/select.component';
+import { FooterComponent } from './footer/footer.component';
 import { ServiceService } from './services/service.service';
 import { ServiceOutletComponent } from './services/outlet/service-outlet.component';
 import { UserService } from './auth/user.service';
@@ -19,9 +21,11 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   declarations: [
     AppComponent,
     HomeComponent,
+    SohoSelectComponent,
     UserNavComponent,
     ServiceOutletComponent,
-    NavBarComponent
+    NavBarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

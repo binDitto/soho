@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
 export class AppComponent {
   title = 'app';
 
-  environment = environment.envName;
+  environment = environment.envName === "Development" ? environment.envName : '';
 
 
 }
