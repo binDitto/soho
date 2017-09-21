@@ -23,7 +23,9 @@ export class ServiceComponent implements OnInit {
   ngOnInit() { }
 
     belongsToUser(){
-      return localStorage.getItem('userId') == this.service.userId;
+
+      return localStorage.getItem('userId') === this.service.userId;
+
     }
 
     onEdit() {

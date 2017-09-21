@@ -1,0 +1,19 @@
+.landing {
+  background-color: rgba(0, 0, 0, 0.6);
+  background-color: black;
+  font-family: 'Merriweather Sans', sans-serif;
+  margin-bottom: 20px;
+}
+
+.jumbotron {
+  background-color: black !important;
+  margin: 0px;
+  border-radius: 0px;
+}
+
+.jumbotron h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 79px;
+  color: rgba(77, 255, 234, 0.9);
+}
+
