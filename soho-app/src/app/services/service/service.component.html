@@ -3,22 +3,33 @@
 
 <div class="perserviceInfo" >
 
-  <div class="serviceDes" [ngStyle]="{ 'display': showDes }">
+  <!-- <div class="serviceDes" [ngStyle]="{ 'display': showDes }">
     <i class="fa fa-times closebutton" (click)="hideDescription()"></i>
     <h4>{{service.name | uppercase}}</h4>
     <p>{{service?.description}}</p>
-  </div>
-
+  </div> -->
+<!--
   <div class="actions" *ngIf="service && belongsToUser()" [ngStyle]="{'display': display }">
     <a href="#" class="btn btn-sm btn-danger" (click)="onEdit()" type="button" data-toggle="modal" data-target="#myModal" data-backdrop="static"
       data-keyboard="false">Edit</a>
     <a href="#" class="btn btn-sm btn-danger" type="button" type="button" (click)="onDelete()">Delete</a>
-  </div>
+  </div> -->
 
 
-  <h3 (click)="showDescription()">{{service?.name}} <span>{{service?.price}}</span></h3>
+  <h3>
+    <a>{{service?.name}} <span>{{service?.price}}</span></a>
+      <i (click)="changeDisplay()" *ngIf="service && belongsToUser()" class="fa fa-ellipsis-v changebutton" >
 
-  <i class="fa fa-ellipsis-v changebutton" (click)="changeDisplay()" *ngIf="service && belongsToUser()"></i>
+        <div class="actions" *ngIf="service && belongsToUser()" [ngStyle]="{'display': display }">
+          <a href="#" class="btn btn-sm btn-danger" (click)="onEdit()" type="button" data-toggle="modal" data-target="#myModal" data-backdrop="static"
+            data-keyboard="false">Edit</a>
+          <a href="#" class="btn btn-sm btn-danger" type="button" type="button" (click)="onDelete()">Delete</a>
+
+        </div>
+      </i>
+
+  </h3>
+
 
 
 </div>

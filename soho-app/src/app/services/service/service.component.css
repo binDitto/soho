@@ -1,51 +1,64 @@
 .perserviceInfo {
   padding: none;
+  position: relative;
   /* border: 1px solid white; */
 }
-
 .perserviceInfo h3 {
+  width: 100%;
+  padding: 5px;
+  /* border: 1px solid white; */
+}
+.perserviceInfo h3 a {
   color: #2F2F2F;
-  display: inline-block;
-  padding: 10px;
+  /* display: block; */
+  padding: 5px;
   font-size: 20px;
-  width: 88%;
+  width: 100%;
+  margin: none;
   font-family: 'Merriweather', serif;
   /* border: 1px solid white; */
 }
-.perserviceInfo h3:hover{
+.perserviceInfo h3 a:hover{
+  text-decoration: none;
   cursor: pointer;
 }
-.perserviceInfo span{
-  float: right;
+.perserviceInfo h3 span{
   color: rgba(0, 171, 151, 1);
+  float: right;
   font-size: 25px;
+font-family: 'Merriweather',
+serif;
 
+}
+.perserviceInfo h3 i {
+  position: relative;
+}
+.perserviceInfo h3 i .actions{
+  position: absolute;
+  top: 0px;
+  left: 15px;
+  background: white;
+}
+.perserviceInfo h3 i .actions a {
+  margin: 5px;
+  position: relative;
+  width: 100%;
+  font-size: 15px;
+  color: white;
 }
 .perserviceInfo .changebutton {
   color: #2F2F2F;
-  position: relative;
-  padding: 20px 15px;
-  display: inline-block;
-  width: 10%;
   font-size: 25px;
+  padding: 5px;
   transition: .5s;
+  background: rgba(255,255,255,.5);
   /* border: 1px solid white; */
 }
 .perserviceInfo .changebutton:hover {
   color: white;
   background-color:#2f2f2f;
 }
-.perserviceInfo .actions {
-  z-index: 900;
-  display: none;
-  position: absolute;
-  /* border: 1px solid gray; */
-  transition: .5s;
-  padding: 15px;
-  bottom: 6px;
-  right: -116px;
-  background-color: white;
-}
+
 
 .serviceDes {
   z-index: 1000;
