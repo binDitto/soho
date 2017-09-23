@@ -2,6 +2,7 @@
 .navbar {min-height:32px !important}
 
 .navbar {
+  z-index: 2000;
   position: relative;
   background: none;
   margin: 0px auto;
